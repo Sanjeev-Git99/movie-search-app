@@ -5,7 +5,11 @@ A modern, responsive, developer-centric React application for discovering movies
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![CSS3](https://img.shields.io/badge/CSS3-Pure_Vanilla_CSS-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Demo-black?logo=vercel&logoColor=white)](https://movie-search-app-gamma-lemon.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> 🚀 **Live Production URL:** [https://movie-search-app-gamma-lemon.vercel.app](https://movie-search-app-gamma-lemon.vercel.app)
+> 📦 **GitHub Repository:** [https://github.com/Sanjeev-Git99/movie-search-app](https://github.com/Sanjeev-Git99/movie-search-app)
 
 ---
 
