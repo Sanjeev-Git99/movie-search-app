@@ -21,7 +21,7 @@ function getMoviePosterFallback(title, year) {
 
 // Verified embeddable backup sources for popular movies
 const BACKUP_TRAILERS = {
-  "tt16539454": ["g3JUbgOHgdw", "1kVK0MZlbI4"], // Pushpa 2: The Rule (Telugu & Hindi Official)
+  "tt16539454": ["g3JUbgOHgdw", "1kVK0MZlbI4"], // Pushpa 2: The Rule
   "tt2631186": ["3NQRhE772b0", "VdafjyDK3ko"], // Baahubali: The Beginning
   "tt8178634": ["NgBoMJy386M", "GY4BgdUSpbE"], // RRR
   "tt11083552": ["kQDd1AhGIHk", "Q1NKMPhP8PY"], // Kalki 2898 AD
@@ -98,7 +98,6 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const allSources = [primaryId, ...fallbackSources.filter(id => id !== primaryId)].filter(Boolean);
   const currentTrailerId = allSources[trailerSourceIndex % (allSources.length || 1)] || null;
 
-  // Reliable YouTube embed URL with strict-origin policy
   const trailerEmbedUrl = currentTrailerId
     ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&rel=0`
     : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
@@ -112,36 +111,36 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
     : (movie.poster || getMoviePosterFallback(movie.title, movie.year));
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 dark:bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="modal-overlay" onClick={onClose}>
       <div 
-        className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl text-zinc-900 dark:text-zinc-100 overflow-hidden my-6"
+        className="modal-dialog"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Action Header */}
-        <div className="border-b border-zinc-100 dark:border-zinc-800 px-4 py-3 flex items-center justify-between gap-2 bg-zinc-50/80 dark:bg-zinc-900/80">
+        <div className="modal-top-bar">
           
           {/* Button 1: Previous Page (Single arrow icon) */}
           <button
             onClick={onClose}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
+            className="modal-prev-btn"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft style={{ width: 14, height: 14 }} />
             <span>Previous Page</span>
           </button>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="modal-actions-right">
             
             {/* Button 2: Add to Wishlist */}
             <button
               onClick={handleWishlistToggle}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                inWishlist
-                  ? 'bg-red-600 text-white hover:bg-red-700'
-                  : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700'
-              }`}
+              className={`modal-wishlist-toggle-btn ${inWishlist ? 'in-wishlist' : ''}`}
             >
-              <Heart className={`w-3.5 h-3.5 ${inWishlist ? 'fill-white' : ''}`} />
+              <Heart 
+                style={{ width: 14, height: 14 }} 
+                fill={inWishlist ? '#ffffff' : 'none'} 
+                color={inWishlist ? '#ffffff' : 'currentColor'} 
+              />
               <span>{inWishlist ? 'In Wishlist' : 'Add to Wishlist'}</span>
             </button>
 
@@ -152,66 +151,62 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                   onClose();
                   onRedirectToWishlist();
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-semibold transition-colors"
+                className="modal-go-wishlist-btn"
               >
                 <span>Go to Wishlist</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight style={{ width: 14, height: 14 }} />
               </button>
             )}
 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-md"
+              className="modal-close-icon-btn"
+              title="Close"
             >
-              <X className="w-4 h-4" />
+              <X style={{ width: 16, height: 16 }} />
             </button>
 
           </div>
         </div>
 
-        {/* Modal Content */}
-        <div className="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+        {/* Modal Scrollable Body */}
+        <div className="modal-body-scroll">
           
           {/* Movie Title & Quick Info */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="modal-title-row">
             <div>
-              <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-0.5">
-                <span className="font-medium text-zinc-700 dark:text-zinc-300">{movie.year}</span>
+              <div className="modal-quick-meta">
+                <span style={{ fontWeight: 600 }}>{movie.year}</span>
                 <span>•</span>
                 <span>{movie.primaryGenre}</span>
                 <span>•</span>
                 <span>{movie.runtime}</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-amber-500 font-medium">
-                  <Star className="w-3 h-3 fill-amber-500" />
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#f59e0b', fontWeight: 600 }}>
+                  <Star style={{ width: 12, height: 12 }} fill="#f59e0b" color="#f59e0b" />
                   {movie.imdbRating?.split('/')[0].trim() || '7.9'}
                 </span>
               </div>
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+              <h2 className="modal-main-title">
                 {movie.title}
               </h2>
             </div>
 
             {/* Trailer Action Controls */}
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              {/* Trailer Toggle Button */}
+            <div>
               <button
                 onClick={() => setShowTrailer(!showTrailer)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                  showTrailer
-                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-                    : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700'
-                }`}
+                className={`modal-trailer-btn ${showTrailer ? '' : 'outline'}`}
               >
                 {showTrailer ? (
                   <>
-                    <EyeOff className="w-3.5 h-3.5" />
+                    <EyeOff style={{ width: 14, height: 14 }} />
                     <span>Hide Trailer</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <Play style={{ width: 14, height: 14 }} fill="currentColor" />
                     <span>Watch Trailer</span>
                   </>
                 )}
@@ -221,32 +216,32 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
 
           {/* Embedded Video Trailer Player */}
           {showTrailer ? (
-            <div className="space-y-2">
-              <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <div className="trailer-box">
+              <div className="trailer-iframe-wrapper">
                 <iframe
                   src={trailerEmbedUrl}
                   title={`${movie.title} Official Trailer`}
-                  className="w-full h-full border-0"
+                  className="trailer-iframe"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 ></iframe>
               </div>
 
-              {/* Player Toolbar: Status, Alternate Source & Direct Link */}
-              <div className="flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1 gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-medium">
-                    <Play className="w-3 h-3 text-red-600 fill-red-600" />
+              {/* Player Toolbar */}
+              <div className="trailer-toolbar">
+                <div className="trailer-status-left">
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 600 }}>
+                    <Play style={{ width: 12, height: 12, color: '#dc2626' }} fill="#dc2626" />
                     Official Trailer
                   </span>
                   {allSources.length > 1 && (
                     <button
                       onClick={() => setTrailerSourceIndex(prev => prev + 1)}
-                      className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 text-[10px] transition-colors"
+                      className="source-switcher-btn"
                       title="Switch to backup trailer video stream"
                     >
-                      <RefreshCw className="w-2.5 h-2.5" />
+                      <RefreshCw style={{ width: 10, height: 10 }} />
                       <span>Switch Source ({((trailerSourceIndex % allSources.length) + 1)}/{allSources.length})</span>
                     </button>
                   )}
@@ -256,43 +251,44 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                   href={youtubeDirectLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline flex items-center gap-1 text-zinc-600 dark:text-zinc-300 hover:text-red-600 font-medium"
+                  className="youtube-external-link"
                 >
                   <span>Watch on YouTube</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink style={{ width: 12, height: 12 }} />
                 </a>
               </div>
             </div>
           ) : (
             /* Poster + Synopsis when trailer is hidden */
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              <div className="relative group mx-auto sm:mx-0 shrink-0">
+            <div className="poster-synopsis-row">
+              <div className="synopsis-poster-wrap">
                 <img
                   src={posterSrc}
                   alt={movie.title}
-                  className="w-28 sm:w-32 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-sm"
+                  className="synopsis-poster-img"
                   onError={() => setImgError(true)}
                 />
                 <button
                   onClick={() => setShowTrailer(true)}
-                  className="absolute inset-0 bg-black/40 group-hover:bg-black/55 rounded-lg flex items-center justify-center text-white transition-colors"
+                  className="synopsis-play-overlay"
                   title="Play Trailer"
                 >
-                  <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <Play className="w-4 h-4 fill-white ml-0.5" />
+                  <div className="play-circle">
+                    <Play style={{ width: 16, height: 16, marginLeft: 2 }} fill="#ffffff" />
                   </div>
                 </button>
               </div>
 
-              <div className="flex-1 space-y-2">
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <div className="synopsis-text-col">
+                <p className="synopsis-text">
                   {movie.plot}
                 </p>
                 <button
                   onClick={() => setShowTrailer(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-semibold"
+                  className="modal-trailer-btn"
+                  style={{ alignSelf: 'flex-start' }}
                 >
-                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <Play style={{ width: 14, height: 14 }} fill="currentColor" />
                   <span>Play Official Trailer</span>
                 </button>
               </div>
@@ -300,24 +296,21 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
           )}
 
           {/* 5 Minimal Specifications */}
-          <div className="space-y-2 pt-3 border-t border-zinc-100 dark:border-zinc-800">
-            <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">
+          <div className="specs-section">
+            <div className="specs-heading">
               5 Key Specifications:
             </div>
 
-            <div className="space-y-1.5 text-xs">
+            <div className="specs-list">
               {fiveSpecs.map((item) => {
                 const IconComponent = item.icon;
                 return (
-                  <div 
-                    key={item.id} 
-                    className="p-2.5 rounded-lg bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1"
-                  >
-                    <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
-                      <IconComponent className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                  <div key={item.id} className="spec-row">
+                    <div className="spec-label-col">
+                      <IconComponent style={{ width: 14, height: 14, color: 'var(--text-muted)' }} />
                       <span>{item.label}</span>
                     </div>
-                    <span className="text-zinc-900 dark:text-zinc-200 font-medium sm:text-right">
+                    <span className="spec-val-col">
                       {item.value}
                     </span>
                   </div>
@@ -328,23 +321,23 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
 
           {/* Plot overview under specs if trailer is shown */}
           {showTrailer && (
-            <div className="pt-2">
-              <span className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            <div className="plot-overview-box">
+              <span className="plot-title">
                 Plot Overview:
               </span>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mt-1">
+              <p className="plot-desc">
                 {movie.plot}
               </p>
             </div>
           )}
 
           {/* Footer Actions (Single arrow icon) */}
-          <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+          <div className="modal-bottom-actions">
             <button
               onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium transition-colors"
+              className="modal-back-btn"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft style={{ width: 14, height: 14 }} />
               <span>Back</span>
             </button>
 
@@ -354,10 +347,10 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                 onClose();
                 onRedirectToWishlist();
               }}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-medium transition-colors"
+              className="modal-go-wishlist-btn"
             >
               <span>Go to Wishlist</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight style={{ width: 14, height: 14 }} />
             </button>
           </div>
 

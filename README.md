@@ -1,10 +1,10 @@
 # 🎬 MovieSearch - Minimalist React Movie Exploration & Wishlist App
 
-A modern, responsive, developer-centric React application for discovering movies, watching official high-definition trailers, viewing essential cinematic specifications, and managing a personal wishlist. Built with React 18, Vite, Tailwind CSS, and the Context API.
+A modern, responsive, developer-centric React application for discovering movies, watching official high-definition trailers, viewing essential cinematic specifications, and managing a personal wishlist. Built with React 18, Vite, Pure CSS3 (Custom Variables, Flexbox & Grid), and the Context API.
 
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![CSS3](https://img.shields.io/badge/CSS3-Pure_Vanilla_CSS-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -13,7 +13,7 @@ A modern, responsive, developer-centric React application for discovering movies
 
 - **⚡ Fast Movie Discovery & Live Search**:
   - Real-time search across global movie titles using OMDb API and TVMaze endpoints with automatic failover to a verified curated offline catalog.
-  - Category filtering by Genre (All, Action, Sci-Fi, Drama, Crime, Superhero, Biography).
+  - Category filtering by Genre (All, Action, Sci-Fi, Drama, Crime).
   
 - **🎯 Minimalist 5-Point Specification Modal**:
   - Focuses on the 5 most critical movie attributes without clutter:
@@ -36,12 +36,15 @@ A modern, responsive, developer-centric React application for discovering movies
   - Dedicated Wishlist view with quick management and empty-state guidance.
 
 - **🌓 Zero-Flicker Light & Dark Theme**:
-  - Minimalist developer aesthetic: pure clean white (`#ffffff`) in Light mode and deep zinc (`#09090b`) in Dark mode.
-  - Synchronized with system preferences and persisted in storage.
+  - Minimalist developer aesthetic implemented with pure CSS custom properties: clean white (`#ffffff`) in Light mode and deep zinc (`#09090b`) in Dark mode.
+  - Smooth transitions and persisted in browser storage.
 
 - **🔒 Authentication & Guest Mode**:
   - Modal-based authentication with instant **1-Click Demo Login** for rapid evaluation.
   - Protected actions (Wishlist and detailed specifications prompt login when unauthenticated).
+
+- **📱 Fully Responsive Design**:
+  - Pure CSS Grid and Flexbox media queries tailored for flawless display across mobile phones, tablets, laptops, and ultra-wide desktops.
 
 - **🖼️ High-Res Poster Delivery (TMDb CDN)**:
   - Official high-definition movie posters powered by The Movie Database (TMDb) CDN.
@@ -55,8 +58,8 @@ A modern, responsive, developer-centric React application for discovering movies
 |---|---|
 | **Frontend Framework** | [React 18](https://react.dev/) (Functional Components, Hooks) |
 | **Build Tool & Bundler** | [Vite](https://vitejs.dev/) (Lightning-fast HMR) |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) (Utility-first, Custom Themes) |
-| **State Management** | React Context API (`AuthContext`, `WishlistContext`) |
+| **Styling** | **Pure Modern CSS3** (CSS Custom Properties, Flexbox, CSS Grid) |
+| **State Management** | React Context API (`AuthContext`, `WishlistContext`, `ThemeContext`) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
 | **Data & Media** | OMDb REST API, TVMaze API, TMDb CDN, YouTube Embeds |
 | **Storage** | Browser `localStorage` for state persistence |
@@ -68,15 +71,15 @@ A modern, responsive, developer-centric React application for discovering movies
 ```text
 movie-search-app/
 ├── index.html              # HTML entry point with security & referrer policies
-├── package.json            # Project dependencies and scripts
-├── tailwind.config.js      # Custom theme configurations (Zinc palette, dark mode)
+├── package.json            # Project dependencies and scripts (Pure CSS, no Tailwind)
 ├── vite.config.js          # Vite build configuration
 ├── src/
 │   ├── main.jsx            # React root mount
 │   ├── App.jsx             # Top-level application layout and view router
-│   ├── index.css           # Tailwind base styles and theme variables
+│   ├── index.css           # Pure vanilla CSS styling, theme variables & media queries
 │   ├── context/
 │   │   ├── AuthContext.jsx       # User authentication state & session persistence
+│   │   ├── ThemeContext.jsx      # Light/Dark mode state & CSS variable toggle
 │   │   └── WishlistContext.jsx   # Global wishlist state & storage synchronization
 │   ├── services/
 │   │   ├── movieApi.js           # API client (OMDb + TVMaze fallback handler)
@@ -103,7 +106,7 @@ movie-search-app/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/movie-search-app.git
+   git clone https://github.com/Sanjeev-Git99/movie-search-app.git
    cd movie-search-app
    ```
 
@@ -132,17 +135,6 @@ If you wish to query the live OMDb API for any global movie:
    ```env
    VITE_OMDB_API_KEY=your_api_key_here
    ```
-
----
-
-## 💡 Engineering Highlights & Solutions
-
-- **YouTube Embed Header Security (Fixing Error 153)**:
-  Solved the YouTube "Video player configuration error" by configuring `strict-origin-when-cross-origin` on both the host meta tag and the iframe element, allowing YouTube to authenticate the embed origin without exposing private referrer data.
-- **Resilient Multi-Tier API Fallback**:
-  Engineered a failover mechanism where movie searches seamlessly attempt OMDb API first, fall back to TVMaze API upon rate limits or missing keys, and gracefully fall back to a curated local database.
-- **Zero-Layout-Shift (CLS) Image Handling**:
-  Implemented aspect-ratio containers (`aspect-[2/3]`) with dynamic SVG fallback cards, preventing cumulative layout shift while posters load from the TMDb CDN.
 
 ---
 

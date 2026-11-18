@@ -51,15 +51,15 @@ export default function MovieCard({ movie, onSelect }) {
   return (
     <div
       onClick={handleClick}
-      className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex flex-col cursor-pointer shadow-xs hover:shadow"
+      className="movie-card"
     >
       {/* Poster */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950">
+      <div className="poster-box">
         <img
           src={posterSrc}
           alt={movie.title}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200"
+          className="poster-image"
           onError={() => setImgError(true)}
         />
 
@@ -67,33 +67,33 @@ export default function MovieCard({ movie, onSelect }) {
         <button
           onClick={handleWishlistClick}
           title={inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
-          className={`absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-sm transition-all shadow-xs ${
-            inWishlist 
-              ? 'bg-red-600 text-white' 
-              : 'bg-white/80 hover:bg-white text-zinc-800 dark:bg-black/60 dark:hover:bg-black/80 dark:text-zinc-200'
-          }`}
+          className={`card-wishlist-btn ${inWishlist ? 'in-wishlist' : ''}`}
         >
-          <Heart className={`w-3.5 h-3.5 ${inWishlist ? 'fill-white' : ''}`} />
+          <Heart 
+            style={{ width: 14, height: 14 }} 
+            fill={inWishlist ? '#ffffff' : 'none'} 
+            color={inWishlist ? '#ffffff' : 'currentColor'} 
+          />
         </button>
       </div>
 
       {/* Info */}
-      <div className="p-3 flex-1 flex flex-col justify-between">
+      <div className="movie-card-info">
         <div>
-          <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 mb-1">
+          <div className="card-top-meta">
             <span>{movie.year}</span>
-            <div className="flex items-center gap-1 text-amber-500 font-medium">
-              <Star className="w-3 h-3 fill-amber-500" />
+            <div className="card-rating">
+              <Star style={{ width: 12, height: 12 }} fill="#f59e0b" color="#f59e0b" />
               <span>{movie.imdbRating?.split('/')[0].trim() || '7.9'}</span>
             </div>
           </div>
 
-          <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm leading-snug line-clamp-1 group-hover:text-black dark:group-hover:text-white">
+          <h3 className="card-title">
             {movie.title}
           </h3>
         </div>
 
-        <div className="mt-2 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
+        <div className="card-bottom-meta">
           <span>{movie.primaryGenre}</span>
           <span>{movie.runtime}</span>
         </div>

@@ -27,7 +27,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+    <div className="app-wrapper">
       {/* Top Navbar */}
       <Navbar 
         activeTab={activeTab} 
@@ -35,7 +35,7 @@ function MainApp() {
       />
 
       {/* Main View Body */}
-      <main className="flex-1 bg-white dark:bg-zinc-950 transition-colors duration-200">
+      <main className="main-content">
         {activeTab === 'search' ? (
           <SearchSection 
             onSelectMovie={handleSelectMovie} 
@@ -48,7 +48,7 @@ function MainApp() {
         )}
       </main>
 
-      {/* Five Essential Details Pop-Up Modal */}
+      {/* 5 Essential Details Pop-Up Modal */}
       {selectedMovie && (
         <MovieDetailModal
           movie={selectedMovie}
@@ -61,12 +61,10 @@ function MainApp() {
       <LoginModal />
 
       {/* Clean Minimal Footer */}
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-6 text-center text-xs text-zinc-500 transition-colors duration-200">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>
-            MovieSearch Web Application
-          </p>
-          <div className="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 text-[11px]">
+      <footer className="app-footer">
+        <div className="container footer-inner">
+          <p>MovieSearch Web Application</p>
+          <div className="footer-features-list">
             <span>5 Essential Specifications</span>
             <span>•</span>
             <span>Light & Dark Theme</span>
