@@ -25,10 +25,9 @@ export function AuthProvider({ children }) {
   const login = (name, email) => {
     const newUser = {
       id: 'usr_' + Date.now(),
-      name: name || 'Movie Fan',
+      name: name || 'Movie Lover',
       email: email || 'user@cinevault.io',
-      avatar: '🎬',
-      joinedAt: new Date().toLocaleDateString('te-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+      joinedAt: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     };
     setUser(newUser);
     setIsLoginModalOpen(false);
@@ -38,10 +37,9 @@ export function AuthProvider({ children }) {
   const guestLogin = () => {
     const guestUser = {
       id: 'guest_cinephile',
-      name: 'సినిమా ప్రేమికుడు (Movie Lover)',
-      email: 'moviebuff@cinevault.in',
-      avatar: '🍿',
-      joinedAt: new Date().toLocaleDateString('te-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+      name: 'Movie Lover',
+      email: 'moviebuff@cinevault.io',
+      joinedAt: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     };
     setUser(guestUser);
     setIsLoginModalOpen(false);

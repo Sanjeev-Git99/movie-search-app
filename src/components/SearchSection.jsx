@@ -4,7 +4,7 @@ import { searchMovies } from '../services/movieApi';
 import { POPULAR_MOVIES } from '../services/mockMovies';
 import MovieCard from './MovieCard';
 
-export default function SearchSection({ onSelectMovie, lang = 'te' }) {
+export default function SearchSection({ onSelectMovie }) {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState(POPULAR_MOVIES);
   const [isLoading, setIsLoading] = useState(false);
@@ -12,17 +12,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
   const [apiKeyInput, setApiKeyInput] = useState(() => localStorage.getItem('omdb_api_key') || '');
   const [keySaved, setKeySaved] = useState(false);
 
-  const isTelugu = lang === 'te';
-
-  const tags = [
-    { name: 'RRR', te: 'RRR' },
-    { name: 'Inception', te: 'ఇన్సెప్షన్' },
-    { name: 'Kalki 2898 AD', te: 'కల్కి' },
-    { name: 'Avatar', te: 'అవతార్' },
-    { name: 'Baahubali', te: 'బాహుబలి' },
-    { name: 'The Dark Knight', te: 'డార్క్ నైట్' },
-    { name: 'Pushpa', te: 'పుష్ప' }
-  ];
+  const tags = ['RRR', 'Inception', 'Kalki 2898 AD', 'Avatar', 'Baahubali', 'The Dark Knight', 'Pushpa', 'Interstellar'];
 
   const handleSearch = async (searchTerm) => {
     const term = searchTerm !== undefined ? searchTerm : query;
@@ -64,12 +54,10 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
       {/* Search Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
-          {isTelugu ? 'సినిమా శోధన' : 'Search Movies'}
+          Search Movies
         </h1>
         <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-4">
-          {isTelugu 
-            ? 'సినిమాను సెర్చ్ చేసి, ముఖ్యమైన 5 వివరాలను వీక్షించండి మరియు విష్‌లిస్ట్‌కు జోడించండి.' 
-            : 'Search movies, view 5 key specifications, and save to your wishlist.'}
+          Search for any movie to view 5 essential specifications and add to your wishlist.
         </p>
 
         {/* Minimal Search Input */}
@@ -78,7 +66,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
             <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder={isTelugu ? 'సినిమా పేరు (ఉదా: RRR, Inception...)' : 'Search movie title...'}
+              placeholder="Search movie title (e.g. Inception, RRR, Avatar)..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="w-full pl-9 pr-8 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 focus:border-zinc-500 dark:focus:border-zinc-600 focus:outline-none text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 shadow-sm transition-colors"
@@ -102,25 +90,25 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
             disabled={isLoading}
             className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-medium text-xs transition-colors shrink-0 disabled:opacity-50 shadow-sm"
           >
-            {isLoading ? (isTelugu ? 'శోధిస్తోంది...' : 'Searching...') : (isTelugu ? 'సెర్చ్' : 'Search')}
+            {isLoading ? 'Searching...' : 'Search'}
           </button>
         </form>
 
         {/* Minimal Tag Chips */}
         <div className="flex items-center gap-1.5 flex-wrap mt-3 text-xs">
           <span className="text-zinc-500 text-[11px] mr-1">
-            {isTelugu ? 'సూచనలు:' : 'Popular:'}
+            Popular:
           </span>
           {tags.map((tag) => (
             <button
-              key={tag.name}
+              key={tag}
               onClick={() => {
-                setQuery(tag.name);
-                handleSearch(tag.name);
+                setQuery(tag);
+                handleSearch(tag);
               }}
               className="px-2.5 py-1 rounded bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 text-[11px] transition-colors"
             >
-              {isTelugu ? tag.te : tag.name}
+              {tag}
             </button>
           ))}
         </div>
@@ -129,7 +117,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
         <div className="mt-3 flex items-center gap-3 text-[11px] text-zinc-500 dark:text-zinc-400">
           <span className="flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            {isTelugu ? 'ఉచిత API రన్ అవుతోంది' : 'Free API Active'}
+            Free Public API Active
           </span>
           <span>•</span>
           <button
@@ -137,7 +125,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
             className="hover:text-zinc-700 dark:hover:text-zinc-300 underline underline-offset-2 flex items-center gap-1"
           >
             <Key className="w-3 h-3" />
-            <span>{isTelugu ? 'OMDB API కీ' : 'API Key'}</span>
+            <span>OMDB API Key</span>
           </button>
         </div>
 
@@ -154,7 +142,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
               type="submit"
               className="px-3 py-1.5 rounded bg-zinc-900 hover:bg-black dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white dark:text-zinc-200 text-xs font-medium"
             >
-              {keySaved ? <Check className="w-3.5 h-3.5" /> : (isTelugu ? 'సేవ్' : 'Save')}
+              {keySaved ? <Check className="w-3.5 h-3.5" /> : 'Save'}
             </button>
           </form>
         )}
@@ -163,10 +151,10 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
       {/* Movies Grid Header */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">
         <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-300">
-          {query ? `"${query}" ఫలితాలు` : (isTelugu ? 'సినిమాలు' : 'Movies')}
+          {query ? `Results for "${query}"` : 'Featured Movies'}
         </h2>
         <span className="text-xs text-zinc-500">
-          {movies.length} {isTelugu ? 'చిత్రాలు' : 'titles'}
+          {movies.length} titles
         </span>
       </div>
 
@@ -184,7 +172,7 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
         </div>
       ) : movies.length === 0 ? (
         <div className="text-center py-12 text-zinc-500 text-sm">
-          {isTelugu ? 'సినిమాలు దొరకలేదు.' : 'No movies found.'}
+          No movies found. Try another title.
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -193,7 +181,6 @@ export default function SearchSection({ onSelectMovie, lang = 'te' }) {
               key={movie.imdbID}
               movie={movie}
               onSelect={onSelectMovie}
-              lang={lang}
             />
           ))}
         </div>

@@ -3,9 +3,8 @@ import { ArrowLeft, Trash2 } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import MovieCard from './MovieCard';
 
-export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te' }) {
+export default function WishlistView({ onSelectMovie, onBackToSearch }) {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const isTelugu = lang === 'te';
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -16,16 +15,16 @@ export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te
           <button
             onClick={onBackToSearch}
             className="p-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors"
-            title={isTelugu ? 'వెనుకకు' : 'Back'}
+            title="Back"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
             <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
-              {isTelugu ? 'నా విష్‌లిస్ట్' : 'My Wishlist'}
+              My Wishlist
             </h1>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              {wishlist.length} {isTelugu ? 'సినిమాలు సేవ్ చేయబడ్డాయి' : 'saved movies'}
+              {wishlist.length} saved movies
             </p>
           </div>
         </div>
@@ -34,7 +33,7 @@ export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te
           onClick={onBackToSearch}
           className="px-3 py-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
         >
-          {isTelugu ? 'సినిమాలు వెతకండి' : 'Browse Movies'}
+          Browse Movies
         </button>
       </div>
 
@@ -42,13 +41,13 @@ export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te
       {wishlist.length === 0 ? (
         <div className="text-center py-16 text-zinc-500 text-sm">
           <p className="mb-3">
-            {isTelugu ? 'మీ విష్‌లిస్ట్ ఖాళీగా ఉంది.' : 'Your wishlist is currently empty.'}
+            Your wishlist is currently empty.
           </p>
           <button
             onClick={onBackToSearch}
             className="px-4 py-2 rounded-md bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-medium transition-colors"
           >
-            {isTelugu ? 'సినిమాలను అన్వేషించండి' : 'Explore Movies'}
+            Explore Movies
           </button>
         </div>
       ) : (
@@ -58,7 +57,6 @@ export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te
               <MovieCard
                 movie={movie}
                 onSelect={onSelectMovie}
-                lang={lang}
               />
               <button
                 onClick={(e) => {
@@ -66,10 +64,10 @@ export default function WishlistView({ onSelectMovie, onBackToSearch, lang = 'te
                   removeFromWishlist(movie.imdbID);
                 }}
                 className="absolute bottom-2 left-2 p-1.5 rounded bg-black/70 hover:bg-black/90 text-zinc-300 hover:text-red-400 text-[11px] flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                title={isTelugu ? 'తొలగించు' : 'Remove'}
+                title="Remove"
               >
                 <Trash2 className="w-3 h-3" />
-                <span>{isTelugu ? 'తీసివేయి' : 'Remove'}</span>
+                <span>Remove</span>
               </button>
             </div>
           ))}

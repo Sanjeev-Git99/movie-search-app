@@ -2,11 +2,10 @@ import React from 'react';
 import { ArrowLeft, Heart, ArrowRight, X, Calendar, Film, Users, Video, Star } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 
-export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist, lang = 'te' }) {
+export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist }) {
   if (!movie) return null;
 
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const isTelugu = lang === 'te';
   const inWishlist = isInWishlist(movie.imdbID);
 
   const handleWishlistToggle = () => {
@@ -21,36 +20,31 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
   const fiveSpecs = [
     {
       id: 1,
-      labelEn: "1. Movie Title",
-      labelTe: "1. సినిమా శీర్షిక (Title)",
-      value: movie.title + (movie.teluguTitle ? ` (${movie.teluguTitle})` : ''),
+      label: "1. Movie Title",
+      value: movie.title,
       icon: Film
     },
     {
       id: 2,
-      labelEn: "2. Release Date",
-      labelTe: "2. విడుదల తేదీ (Release Date)",
+      label: "2. Release Date",
       value: movie.released || movie.year,
       icon: Calendar
     },
     {
       id: 3,
-      labelEn: "3. Movie Genre",
-      labelTe: "3. సినిమా వర్గం (Genre)",
+      label: "3. Movie Genre",
       value: Array.isArray(movie.genres) ? movie.genres.join(', ') : (movie.primaryGenre || 'Action, Drama'),
       icon: Film
     },
     {
       id: 4,
-      labelEn: "4. Starring Cast",
-      labelTe: "4. నటీనటులు (Starring Cast)",
+      label: "4. Starring Cast",
       value: movie.leadCast,
       icon: Users
     },
     {
       id: 5,
-      labelEn: "5. Director",
-      labelTe: "5. దర్శకుడు (Director)",
+      label: "5. Director",
       value: movie.director,
       icon: Video
     }
@@ -71,7 +65,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>{isTelugu ? '← Previous Page (వెనుకకు)' : '← Previous Page'}</span>
+            <span>← Previous Page</span>
           </button>
 
           {/* Right Action Buttons */}
@@ -87,11 +81,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
               }`}
             >
               <Heart className={`w-3.5 h-3.5 ${inWishlist ? 'fill-white' : ''}`} />
-              <span>
-                {inWishlist 
-                  ? (isTelugu ? 'విష్‌లిస్ట్‌లో ఉంది' : 'In Wishlist') 
-                  : (isTelugu ? 'Wishlist లో జోడించు' : 'Add to Wishlist')}
-              </span>
+              <span>{inWishlist ? 'In Wishlist' : 'Add to Wishlist'}</span>
             </button>
 
             {/* Button 3: Redirect to Wishlist */}
@@ -103,7 +93,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-semibold transition-colors"
               >
-                <span>{isTelugu ? 'విష్‌లిస్ట్ చూడండి' : 'Go to Wishlist'}</span>
+                <span>Go to Wishlist</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
@@ -160,7 +150,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
           {/* 5 Minimal Specifications */}
           <div className="space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
             <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">
-              {isTelugu ? 'ముఖ్యమైన 5 వివరాలు (5 Key Specifications):' : '5 Key Specifications:'}
+              5 Key Specifications:
             </div>
 
             <div className="space-y-1.5 text-xs">
@@ -173,7 +163,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
                   >
                     <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
                       <IconComponent className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                      <span>{isTelugu ? item.labelTe : item.labelEn}</span>
+                      <span>{item.label}</span>
                     </div>
                     <span className="text-zinc-900 dark:text-zinc-200 font-medium sm:text-right">
                       {item.value}
@@ -190,7 +180,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
               onClick={onClose}
               className="px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium transition-colors"
             >
-              {isTelugu ? '← వెనుకకు (Previous Page)' : '← Back'}
+              ← Back
             </button>
 
             <button
@@ -201,7 +191,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist,
               }}
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-medium transition-colors"
             >
-              <span>{isTelugu ? 'విష్‌లిస్ట్‌కు వెళ్లండి' : 'Go to Wishlist'}</span>
+              <span>Go to Wishlist</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

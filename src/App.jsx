@@ -11,7 +11,6 @@ import LoginModal from './components/LoginModal';
 function MainApp() {
   const [activeTab, setActiveTab] = useState('search'); // 'search' | 'wishlist'
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [lang, setLang] = useState('te'); // default to Telugu
 
   const handleSelectMovie = (movie) => {
     setSelectedMovie(movie);
@@ -29,12 +28,10 @@ function MainApp() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
-      {/* Top Navbar with Theme Toggle */}
+      {/* Top Navbar */}
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
-        lang={lang} 
-        setLang={setLang} 
       />
 
       {/* Main View Body */}
@@ -42,13 +39,11 @@ function MainApp() {
         {activeTab === 'search' ? (
           <SearchSection 
             onSelectMovie={handleSelectMovie} 
-            lang={lang} 
           />
         ) : (
           <WishlistView 
             onSelectMovie={handleSelectMovie}
             onBackToSearch={() => setActiveTab('search')}
-            lang={lang}
           />
         )}
       </main>
@@ -59,27 +54,24 @@ function MainApp() {
           movie={selectedMovie}
           onClose={handleCloseDetailModal}
           onRedirectToWishlist={handleRedirectToWishlist}
-          lang={lang}
         />
       )}
 
       {/* Login / Authentication Modal */}
-      <LoginModal lang={lang} />
+      <LoginModal />
 
       {/* Clean Minimal Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-6 text-center text-xs text-zinc-500 transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>
-            {lang === 'te' 
-              ? 'MovieSearch వెబ్ అప్లికేషన్' 
-              : 'MovieSearch Web Application'}
+            MovieSearch Web Application
           </p>
           <div className="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 text-[11px]">
-            <span>{lang === 'te' ? 'ముఖ్యమైన 5 వివరాలు' : '5 Key Details'}</span>
+            <span>5 Essential Specifications</span>
             <span>•</span>
-            <span>{lang === 'te' ? 'లైట్ / డార్క్ థీమ్' : 'Light / Dark Theme'}</span>
+            <span>Light & Dark Theme</span>
             <span>•</span>
-            <span>{lang === 'te' ? 'విష్‌లిస్ట్' : 'Wishlist'}</span>
+            <span>Wishlist Management</span>
           </div>
         </div>
       </footer>

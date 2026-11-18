@@ -3,7 +3,7 @@ import { Star, Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 
-export default function MovieCard({ movie, onSelect, lang = 'te' }) {
+export default function MovieCard({ movie, onSelect }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { isLoggedIn, openLoginModal } = useAuth();
   const inWishlist = isInWishlist(movie.imdbID);
@@ -25,8 +25,6 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
     toggleWishlist(movie);
   };
 
-  const isTelugu = lang === 'te';
-
   return (
     <div
       onClick={handleClick}
@@ -47,7 +45,7 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
         {/* Quick Wishlist Button */}
         <button
           onClick={handleWishlistClick}
-          title={inWishlist ? (isTelugu ? 'విష్‌లిస్ట్ నుండి తీసివేయి' : 'Remove from Wishlist') : (isTelugu ? 'విష్‌లిస్ట్‌కు జోడించు' : 'Add to Wishlist')}
+          title={inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
           className={`absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-sm transition-all shadow-xs ${
             inWishlist 
               ? 'bg-red-600 text-white' 
@@ -72,12 +70,6 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
           <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm leading-snug line-clamp-1 group-hover:text-black dark:group-hover:text-white">
             {movie.title}
           </h3>
-
-          {movie.teluguTitle && (
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate mt-0.5">
-              {movie.teluguTitle}
-            </p>
-          )}
         </div>
 
         <div className="mt-2 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">

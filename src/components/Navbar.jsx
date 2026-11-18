@@ -1,15 +1,13 @@
 import React from 'react';
-import { Film, Heart, Search, LogIn, LogOut, Globe, Sun, Moon } from 'lucide-react';
+import { Film, Heart, Search, LogIn, LogOut, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
+export default function Navbar({ activeTab, setActiveTab }) {
   const { user, isLoggedIn, logout, openLoginModal } = useAuth();
   const { totalItems } = useWishlist();
   const { isDark, toggleTheme } = useTheme();
-
-  const isTelugu = lang === 'te';
 
   return (
     <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur sticky top-0 z-40 transition-colors duration-200">
@@ -39,7 +37,7 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
             }`}
           >
             <Search className="w-3.5 h-3.5" />
-            <span>{isTelugu ? 'సినిమాలు' : 'Search'}</span>
+            <span>Search</span>
           </button>
 
           <button
@@ -51,7 +49,7 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
             }`}
           >
             <Heart className={`w-3.5 h-3.5 ${totalItems > 0 ? 'text-red-500 fill-red-500' : ''}`} />
-            <span>{isTelugu ? 'విష్‌లిస్ట్' : 'Wishlist'}</span>
+            <span>Wishlist</span>
             {totalItems > 0 && (
               <span className="ml-0.5 px-1.5 py-0.2 rounded-full bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-300 text-[10px] font-bold">
                 {totalItems}
@@ -60,36 +58,26 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
           </button>
         </div>
 
-        {/* Right Actions: Theme Toggle, Language Toggle, User Auth */}
+        {/* Right Actions: Theme Toggle, User Auth */}
         <div className="flex items-center gap-2">
           
-          {/* Light / Dark Mode Toggle with clear visual state */}
+          {/* Light / Dark Mode Toggle */}
           <button
             onClick={toggleTheme}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-200 bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-200 shadow-xs"
-            title={isDark ? (isTelugu ? 'లైట్ మోడ్ కి మారండి' : 'Switch to Light Mode') : (isTelugu ? 'డార్క్ మోడ్ కి మారండి' : 'Switch to Dark Mode')}
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {isDark ? (
               <>
                 <Sun className="w-3.5 h-3.5 text-amber-400" />
-                <span className="text-[11px]">{isTelugu ? 'లైట్' : 'Light'}</span>
+                <span className="text-[11px]">Light</span>
               </>
             ) : (
               <>
                 <Moon className="w-3.5 h-3.5 text-zinc-700" />
-                <span className="text-[11px]">{isTelugu ? 'డార్క్' : 'Dark'}</span>
+                <span className="text-[11px]">Dark</span>
               </>
             )}
-          </button>
-
-          {/* Language Toggle */}
-          <button
-            onClick={() => setLang(l => (l === 'te' ? 'en' : 'te'))}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition-colors"
-            title="భాష మార్చండి"
-          >
-            <Globe className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
-            <span>{lang === 'te' ? 'తెలుగు' : 'EN'}</span>
           </button>
 
           {isLoggedIn ? (
@@ -99,7 +87,7 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
               </span>
               <button
                 onClick={logout}
-                title={isTelugu ? 'లాగౌట్' : 'Logout'}
+                title="Logout"
                 className="p-1.5 rounded-lg text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
               >
                 <LogOut className="w-4 h-4" />
@@ -111,7 +99,7 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-semibold text-xs transition-colors shadow-xs"
             >
               <LogIn className="w-3.5 h-3.5" />
-              <span>{isTelugu ? 'లాగిన్' : 'Log In'}</span>
+              <span>Log In</span>
             </button>
           )}
         </div>
