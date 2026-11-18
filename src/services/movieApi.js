@@ -27,7 +27,7 @@ export function enrichMovieData(raw, fallback = {}) {
   );
 
   if (matched) {
-    return { ...matched, poster: poster || matched.poster };
+    return { ...matched, poster: matched.poster || poster };
   }
 
   const genreList = (raw.Genre || raw.genre || fallback.genres?.join(', ') || 'Action, Drama').split(',').map(g => g.trim());

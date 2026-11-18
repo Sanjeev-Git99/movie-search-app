@@ -1,5 +1,41 @@
-// Rich curated dataset with trailers and essential specifications
+// Rich curated dataset with verified TMDb posters and official working trailers
 export const POPULAR_MOVIES = [
+  {
+    imdbID: "tt16539454",
+    title: "Pushpa 2: The Rule",
+    year: "2024",
+    rated: "Not Rated",
+    released: "05 Dec 2024",
+    runtime: "201 min (3h 21m)",
+    primaryGenre: "Action Crime",
+    genres: ["Action", "Crime", "Drama", "Thriller"],
+    director: "Sukumar",
+    writer: "Sukumar",
+    leadCast: "Allu Arjun, Rashmika Mandanna, Fahadh Faasil",
+    supportingCast: "Jagapathi Babu, Prakash Raj, Sunil, Anasuya Bharadwaj",
+    plot: "Pushpa Raj expands his red sandalwood empire while his fiercest adversary, Bhanwar Singh Shekhawat, plots an all-out war to take him down.",
+    imdbRating: "8.1 / 10",
+    poster: "https://image.tmdb.org/t/p/w500/eUe5M3D0lLskjirOJ11R6xd7XB0.jpg",
+    trailerYoutubeId: "1kVK0MZlbI4"
+  },
+  {
+    imdbID: "tt9335498",
+    title: "Pushpa: The Rise",
+    year: "2021",
+    rated: "Not Rated",
+    released: "17 Dec 2021",
+    runtime: "179 min (2h 59m)",
+    primaryGenre: "Action Crime",
+    genres: ["Action", "Crime", "Drama", "Thriller"],
+    director: "Sukumar",
+    writer: "Sukumar",
+    leadCast: "Allu Arjun, Rashmika Mandanna, Fahadh Faasil",
+    supportingCast: "Jagadeesh Prathap, Sunil, Anasuya Bharadwaj",
+    plot: "Pushpa Raj, a coolie, rises in the world of red sandalwood smuggling, making lethal enemies along the way.",
+    imdbRating: "7.6 / 10",
+    poster: "https://image.tmdb.org/t/p/w500/jQIcn51nsvMrpB9NFwEOb9QHhFt.jpg",
+    trailerYoutubeId: "Q1NKMPhP8PY"
+  },
   {
     imdbID: "tt8178634",
     title: "RRR (Rise Roar Revolt)",
@@ -15,26 +51,26 @@ export const POPULAR_MOVIES = [
     supportingCast: "Ajay Devgn, Alia Bhatt, Shriya Saran",
     plot: "A fictitious story about two legendary revolutionaries and their journey away from home before they began fighting for their country in the 1920s.",
     imdbRating: "7.8 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BODUwNDNjMTctODUxNy00ZTA2LWIyYTEtZjUwNmQ2NDMwZjBhXkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/d3l7kgFJyLTTQSrR4ysCk5yeVyW.jpg",
     trailerYoutubeId: "NgBoMJy386M"
   },
   {
-    imdbID: "tt1375666",
-    title: "Inception",
-    year: "2010",
+    imdbID: "tt11083552",
+    title: "Kalki 2898 AD",
+    year: "2024",
     rated: "PG-13",
-    released: "16 Jul 2010",
-    runtime: "148 min (2h 28m)",
-    primaryGenre: "Sci-Fi",
-    genres: ["Sci-Fi", "Action", "Adventure", "Thriller"],
-    director: "Christopher Nolan",
-    writer: "Christopher Nolan",
-    leadCast: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
-    supportingCast: "Tom Hardy, Ken Watanabe, Cillian Murphy",
-    plot: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-    imdbRating: "8.8 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-    trailerYoutubeId: "YoHD9XEInc0"
+    released: "27 Jun 2024",
+    runtime: "181 min (3h 1m)",
+    primaryGenre: "Sci-Fi Epic",
+    genres: ["Sci-Fi", "Action", "Mythology", "Adventure"],
+    director: "Nag Ashwin",
+    writer: "Nag Ashwin",
+    leadCast: "Prabhas, Amitabh Bachchan, Kamal Haasan, Deepika Padukone",
+    supportingCast: "Disha Patani, Saswata Chatterjee, Brahmanandam",
+    plot: "A modern avatar of Vishnu descends to Earth to protect the world from evil forces in a post-apocalyptic world 6000 years after the Mahabharata.",
+    imdbRating: "7.6 / 10",
+    poster: "https://image.tmdb.org/t/p/w500/o8XSR1SONnjcsv84NRu6Mwsl5io.jpg",
+    trailerYoutubeId: "kQDd1AhGIHk"
   },
   {
     imdbID: "tt2631186",
@@ -51,8 +87,26 @@ export const POPULAR_MOVIES = [
     supportingCast: "Sathyaraj, Ramya Krishna, Nassar",
     plot: "A child from the Mahishmati kingdom is raised by tribal people and grows up to discover his legendary regal heritage.",
     imdbRating: "8.0 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BYWVlMjVhZWYtNWViNC00ODFkLTk1MmItYjU1MDY5ZDdhMTU3XkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/9BAjt8nSSms62uOVYn1t3C3dVto.jpg",
     trailerYoutubeId: "3NQRhE772b0"
+  },
+  {
+    imdbID: "tt1375666",
+    title: "Inception",
+    year: "2010",
+    rated: "PG-13",
+    released: "16 Jul 2010",
+    runtime: "148 min (2h 28m)",
+    primaryGenre: "Sci-Fi",
+    genres: ["Sci-Fi", "Action", "Adventure", "Thriller"],
+    director: "Christopher Nolan",
+    writer: "Christopher Nolan",
+    leadCast: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
+    supportingCast: "Tom Hardy, Ken Watanabe, Cillian Murphy",
+    plot: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+    imdbRating: "8.8 / 10",
+    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    trailerYoutubeId: "YoHD9XEInc0"
   },
   {
     imdbID: "tt0816692",
@@ -69,7 +123,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Bill Irwin, Ellen Burstyn, Michael Caine, Matt Damon",
     plot: "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft to find a new planet for humans.",
     imdbRating: "8.7 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjM2My00MzkzLTkyNTQtNTXhMzg2ODdlNmJhXkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
     trailerYoutubeId: "zSWdZVtXT7E"
   },
   {
@@ -87,7 +141,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Michael Caine, Maggie Gyllenhaal, Gary Oldman, Morgan Freeman",
     plot: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological tests of his ability.",
     imdbRating: "9.0 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
     trailerYoutubeId: "EXeTwQWrcwY"
   },
   {
@@ -105,62 +159,8 @@ export const POPULAR_MOVIES = [
     supportingCast: "Scarlett Johansson, Jeremy Renner, Paul Rudd, Benedict Cumberbatch",
     plot: "After devastating events in the universe, the surviving Avengers assemble once more in order to reverse Thanos' catastrophic actions.",
     imdbRating: "8.4 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
     trailerYoutubeId: "TcMBFSGVi1c"
-  },
-  {
-    imdbID: "tt11083552",
-    title: "Kalki 2898 AD",
-    year: "2024",
-    rated: "PG-13",
-    released: "27 Jun 2024",
-    runtime: "181 min (3h 1m)",
-    primaryGenre: "Sci-Fi Epic",
-    genres: ["Sci-Fi", "Action", "Mythology", "Adventure"],
-    director: "Nag Ashwin",
-    writer: "Nag Ashwin",
-    leadCast: "Prabhas, Amitabh Bachchan, Kamal Haasan, Deepika Padukone",
-    supportingCast: "Disha Patani, Saswata Chatterjee, Brahmanandam",
-    plot: "A modern avatar of Vishnu descends to Earth to protect the world from evil forces in a post-apocalyptic world 6000 years after the Mahabharata.",
-    imdbRating: "7.6 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMmMwN2U0NjYtMTg0Ni00ZWQwLWEyODgtYzg0MDU5OGVhMDRiXkEyXkFqcGc@._V1_SX300.jpg",
-    trailerYoutubeId: "kQDd1AhGIHk"
-  },
-  {
-    imdbID: "tt9335498",
-    title: "Pushpa: The Rise",
-    year: "2021",
-    rated: "Not Rated",
-    released: "17 Dec 2021",
-    runtime: "179 min (2h 59m)",
-    primaryGenre: "Action Crime",
-    genres: ["Action", "Crime", "Drama", "Thriller"],
-    director: "Sukumar",
-    writer: "Sukumar",
-    leadCast: "Allu Arjun, Rashmika Mandanna, Fahadh Faasil",
-    supportingCast: "Jagadeesh Prathap, Sunil, Anasuya Bharadwaj",
-    plot: "Pushpa Raj, a coolie, rises in the world of red sandalwood smuggling, making lethal enemies along the way.",
-    imdbRating: "7.6 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMmQ4YmM3NjgtNTExNC00ZTZhLWEwZTctYjdhOWI4ZWFlMDk2XkEyXkFqcGc@._V1_SX300.jpg",
-    trailerYoutubeId: "Q1NKMPhP8PY"
-  },
-  {
-    imdbID: "tt16539454",
-    title: "Pushpa 2: The Rule",
-    year: "2024",
-    rated: "Not Rated",
-    released: "05 Dec 2024",
-    runtime: "201 min (3h 21m)",
-    primaryGenre: "Action Crime",
-    genres: ["Action", "Crime", "Drama", "Thriller"],
-    director: "Sukumar",
-    writer: "Sukumar",
-    leadCast: "Allu Arjun, Rashmika Mandanna, Fahadh Faasil",
-    supportingCast: "Jagapathi Babu, Prakash Raj, Sunil, Anasuya Bharadwaj",
-    plot: "Pushpa Raj expands his red sandalwood empire while his fiercest adversary, Bhanwar Singh Shekhawat, plots an all-out war to take him down.",
-    imdbRating: "8.1 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BNGZlNmE5MjMtMzMwMy00OGUyLTlkOGUtMmEyNDUzMmY3ZmMwXkEyXkFqcGc@._V1_SX300.jpg",
-    trailerYoutubeId: "1kVK0MZlbI4"
   },
   {
     imdbID: "tt15398776",
@@ -177,7 +177,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Florence Pugh, Josh Hartnett, Casey Affleck",
     plot: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II.",
     imdbRating: "8.9 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BN2JkMDc5MGQtZjg3YS00NmFiLWIyZmQtZTGCZTE5YmI3NDkzXkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
     trailerYoutubeId: "uYPbbksJxIg"
   },
   {
@@ -195,7 +195,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Stephen Lang, Michelle Rodriguez, Giovanni Ribisi",
     plot: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting an alien world.",
     imdbRating: "7.9 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMDEzMmQwZjctZWU2My00MWNlLWE0NjItMDJlYTRlNGJiZjAyXkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg",
     trailerYoutubeId: "5PSNL1qE6VY"
   },
   {
@@ -213,7 +213,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Bob Gunton, William Sadler, Clancy Brown",
     plot: "A banker convicted of uxoricide forms a friendship over a quarter of a century with a fellow convict, while maintaining his innocence.",
     imdbRating: "9.3 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
     trailerYoutubeId: "6hB3S9bIaco"
   },
   {
@@ -231,7 +231,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Tobey Maguire, Andrew Garfield, Willem Dafoe",
     plot: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds appear.",
     imdbRating: "8.2 / 10",
-    poster: "https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_SX300.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
     trailerYoutubeId: "JfVOs4VSpmA"
   }
 ];

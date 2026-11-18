@@ -95,9 +95,9 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const allSources = [primaryId, ...fallbackSources.filter(id => id !== primaryId)].filter(Boolean);
   const currentTrailerId = allSources[trailerSourceIndex % (allSources.length || 1)] || null;
 
-  // Trailer embed URL with mute parameter controlled by state
+  // Trailer embed URL with mute parameter controlled by state (without enablejsapi to prevent configuration errors)
   const trailerEmbedUrl = currentTrailerId
-    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&mute=${isMuted ? 1 : 0}&rel=0&enablejsapi=1`
+    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&mute=${isMuted ? 1 : 0}&rel=0`
     : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1&mute=${isMuted ? 1 : 0}`;
 
   const youtubeDirectLink = currentTrailerId
