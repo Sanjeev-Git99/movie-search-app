@@ -27,7 +27,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-rose-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100">
       {/* Top Navbar */}
       <Navbar 
         activeTab={activeTab} 
@@ -65,20 +65,20 @@ function MainApp() {
       {/* Login / Authentication Modal */}
       <LoginModal lang={lang} />
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Simple Developer Footer */}
+      <footer className="border-t border-zinc-850 py-6 text-center text-xs text-zinc-500">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>
             {lang === 'te' 
-              ? '© 2026 CineVault - మూవీ సెర్చ్ & విష్‌లిస్ట్ వెబ్ అప్లికేషన్. ఉచిత API సేవలతో పనిచేస్తుంది.' 
-              : '© 2026 CineVault - Movie Search & Wishlist Web Application with 30 in-depth specs.'}
+              ? 'MovieSearch Web Application' 
+              : 'MovieSearch Web Application'}
           </p>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>{lang === 'te' ? '30 పూర్తి వివరాలు' : '30 Comprehensive Details'}</span>
+          <div className="flex items-center gap-3 text-zinc-500 text-[11px]">
+            <span>30 Movie Details</span>
             <span>•</span>
-            <span>{lang === 'te' ? 'ఉచిత API' : 'Free Open API'}</span>
+            <span>Free API</span>
             <span>•</span>
-            <span>{lang === 'te' ? 'విష్‌లిస్ట్ రీడైరెక్ట్' : 'Wishlist Direct Access'}</span>
+            <span>Wishlist Management</span>
           </div>
         </div>
       </footer>

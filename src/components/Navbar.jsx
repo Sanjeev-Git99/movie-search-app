@@ -1,5 +1,5 @@
 import React from 'react';
-import { Film, Heart, Search, User, LogIn, LogOut, Sparkles, Globe } from 'lucide-react';
+import { Film, Heart, Search, User, LogIn, LogOut, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 
@@ -10,96 +10,75 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
   const isTelugu = lang === 'te';
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+    <header className="border-b border-zinc-800 bg-zinc-950 sticky top-0 z-40">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
         
-        {/* Brand Logo */}
+        {/* Brand Logo - Minimal & Clean */}
         <div 
           onClick={() => setActiveTab('search')}
-          className="flex items-center gap-3 cursor-pointer group select-none"
+          className="flex items-center gap-2.5 cursor-pointer select-none"
         >
-          <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 p-0.5 shadow-lg shadow-rose-600/25 group-hover:shadow-rose-600/40 transition-all duration-300">
-            <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-              <Film className="w-6 h-6 text-rose-500 group-hover:scale-110 transition-transform duration-300" />
-            </div>
+          <div className="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-200">
+            <Film className="w-4 h-4 text-zinc-200" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-rose-400 bg-clip-text text-transparent">
-                CineVault
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                PRO
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 font-medium">
-              {isTelugu ? 'మూవీస్ సెర్చ్ అప్లికేషన్' : 'Movies Search & Wishlist'}
-            </p>
-          </div>
+          <span className="font-semibold text-base text-zinc-100 tracking-tight">
+            MovieSearch
+          </span>
         </div>
 
-        {/* Center Navigation Tabs */}
-        <nav className="flex items-center bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800/80 shadow-inner">
+        {/* Center Tabs */}
+        <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
           <button
             onClick={() => setActiveTab('search')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
               activeTab === 'search'
-                ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-zinc-800 text-white'
+                : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Search className="w-4 h-4" />
-            <span>{isTelugu ? 'సినిమాలు' : 'Explore'}</span>
+            <Search className="w-3.5 h-3.5" />
+            <span>{isTelugu ? 'సినిమాలు' : 'Search'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('wishlist')}
-            className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
               activeTab === 'wishlist'
-                ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-zinc-800 text-white'
+                : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Heart className={`w-4 h-4 ${totalItems > 0 ? 'text-rose-400 fill-rose-400' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 ${totalItems > 0 ? 'text-red-400 fill-red-400' : ''}`} />
             <span>{isTelugu ? 'విష్‌లిస్ట్' : 'Wishlist'}</span>
             {totalItems > 0 && (
-              <span className="ml-1 px-2 py-0.2 text-[11px] font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              <span className="ml-0.5 px-1.5 py-0.2 rounded-full bg-zinc-700 text-zinc-200 text-[10px]">
                 {totalItems}
               </span>
             )}
           </button>
-        </nav>
+        </div>
 
-        {/* Right Action Items: Language Toggle & User Profile/Login */}
-        <div className="flex items-center gap-3">
-          {/* Language Switcher */}
+        {/* Right Actions */}
+        <div className="flex items-center gap-2">
+          {/* Language Toggle */}
           <button
             onClick={() => setLang(l => (l === 'te' ? 'en' : 'te'))}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-all"
-            title="భాష మార్చుకోండి / Toggle Language"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs text-zinc-300 transition-colors"
+            title="భాష మార్చండి"
           >
-            <Globe className="w-3.5 h-3.5 text-rose-400" />
-            <span>{lang === 'te' ? 'తెలుగు' : 'English'}</span>
+            <Globe className="w-3.5 h-3.5 text-zinc-400" />
+            <span>{lang === 'te' ? 'తెలుగు' : 'EN'}</span>
           </button>
 
           {isLoggedIn ? (
-            <div className="flex items-center gap-3 pl-2 border-l border-slate-800">
-              <div className="hidden sm:flex flex-col text-right">
-                <span className="text-sm font-bold text-slate-200 leading-tight">
-                  {user.name}
-                </span>
-                <span className="text-[11px] text-emerald-400 flex items-center gap-1 justify-end font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  {isTelugu ? 'లాగిన్ అయ్యారు' : 'Logged In'}
-                </span>
-              </div>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center text-lg font-bold shadow-md shadow-rose-950">
-                {user.avatar || '🎬'}
-              </div>
+            <div className="flex items-center gap-2 pl-2 border-l border-zinc-800">
+              <span className="text-xs text-zinc-300 hidden sm:inline">
+                {user.name}
+              </span>
               <button
                 onClick={logout}
-                title={isTelugu ? 'లాగౌట్ చేయండి' : 'Log out'}
-                className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-slate-900 transition-colors"
+                title={isTelugu ? 'లాగౌట్' : 'Logout'}
+                className="p-1.5 rounded-md text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 transition-colors"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -107,10 +86,10 @@ export default function Navbar({ activeTab, setActiveTab, lang, setLang }) {
           ) : (
             <button
               onClick={openLoginModal}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-semibold text-sm shadow-lg shadow-rose-600/25 transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-zinc-100 hover:bg-white text-zinc-900 font-medium text-xs transition-colors"
             >
-              <LogIn className="w-4 h-4" />
-              <span>{isTelugu ? 'లాగిన్ అవ్వండి' : 'Log In'}</span>
+              <LogIn className="w-3.5 h-3.5" />
+              <span>{isTelugu ? 'లాగిన్' : 'Log In'}</span>
             </button>
           )}
         </div>

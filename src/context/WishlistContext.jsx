@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import confetti from 'canvas-confetti';
 import { useAuth } from './AuthContext';
 
 const WishlistContext = createContext();
@@ -44,18 +43,6 @@ export function WishlistProvider({ children }) {
   const addToWishlist = (movie) => {
     if (!isInWishlist(movie.imdbID)) {
       setWishlist(prev => [movie, ...prev]);
-      
-      // Joyful confetti explosion!
-      try {
-        confetti({
-          particleCount: 70,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ['#e11d48', '#f43f5e', '#fb7185', '#fbbf24', '#ffffff']
-        });
-      } catch (err) {
-        // ignore if confetti unavailable
-      }
       return true;
     }
     return false;
