@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import { 
   ArrowLeft, Heart, ArrowRight, X, Calendar, Film, 
-  Users, Video, Star, Play, EyeOff, ExternalLink, RefreshCw 
+  Users, Video, Star, Play, EyeOff, ExternalLink, RefreshCw,
+  Volume2, VolumeX 
 } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
+
+function getMoviePosterFallback(title, year) {
+  const cleanTitle = (title || 'Movie').slice(0, 24).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const cleanYear = (year || 'Cinema').slice(0, 10);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+    <rect width="300" height="450" fill="#18181b"/>
+    <rect x="15" y="15" width="270" height="420" rx="8" fill="#27272a" stroke="#3f3f46" stroke-width="1.5"/>
+    <circle cx="150" cy="175" r="40" fill="#3f3f46"/>
+    <text x="150" y="188" font-family="-apple-system,sans-serif" font-size="32" text-anchor="middle" fill="#a1a1aa">🎬</text>
+    <text x="150" y="260" font-family="-apple-system,sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#f4f4f5">${cleanTitle}</text>
+    <text x="150" y="285" font-family="-apple-system,sans-serif" font-size="12" text-anchor="middle" fill="#a1a1aa">${cleanYear}</text>
+  </svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
 
 // Verified embeddable backup sources for popular movies
 const BACKUP_TRAILERS = {
@@ -29,6 +44,8 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const inWishlist = isInWishlist(movie.imdbID);
   const [showTrailer, setShowTrailer] = useState(true);
   const [trailerSourceIndex, setTrailerSourceIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true); // Default to MUTED as requested!
+  const [imgError, setImgError] = useState(false);
 
   const handleWishlistToggle = () => {
     if (inWishlist) {
@@ -78,14 +95,18 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const allSources = [primaryId, ...fallbackSources.filter(id => id !== primaryId)].filter(Boolean);
   const currentTrailerId = allSources[trailerSourceIndex % (allSources.length || 1)] || null;
 
-  const originParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : '';
+  // Trailer embed URL with mute parameter controlled by state
   const trailerEmbedUrl = currentTrailerId
-    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&rel=0&enablejsapi=1`
-    : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
+    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&mute=${isMuted ? 1 : 0}&rel=0&enablejsapi=1`
+    : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1&mute=${isMuted ? 1 : 0}`;
 
   const youtubeDirectLink = currentTrailerId
     ? `https://www.youtube.com/watch?v=${currentTrailerId}`
     : `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' official trailer')}`;
+
+  const posterSrc = imgError 
+    ? getMoviePosterFallback(movie.title, movie.year) 
+    : (movie.poster || getMoviePosterFallback(movie.title, movie.year));
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 dark:bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
@@ -96,7 +117,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
         {/* Top Action Header */}
         <div className="border-b border-zinc-100 dark:border-zinc-800 px-4 py-3 flex items-center justify-between gap-2 bg-zinc-50/80 dark:bg-zinc-900/80">
           
-          {/* Button 1: Previous Page */}
+          {/* Button 1: Previous Page (Single arrow icon) */}
           <button
             onClick={onClose}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
@@ -169,27 +190,55 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
               </h2>
             </div>
 
-            {/* Trailer Toggle Button */}
-            <button
-              onClick={() => setShowTrailer(!showTrailer)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors self-start sm:self-auto ${
-                showTrailer
-                  ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-                  : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700'
-              }`}
-            >
-              {showTrailer ? (
-                <>
-                  <EyeOff className="w-3.5 h-3.5" />
-                  <span>Hide Trailer</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>Watch Trailer</span>
-                </>
+            {/* Trailer Action Controls */}
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              {showTrailer && (
+                /* Sound Toggle Button (Muted by Default) */
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    isMuted
+                      ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 dark:bg-amber-950/80 dark:hover:bg-amber-900 dark:text-amber-200 dark:border-amber-800'
+                      : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 dark:bg-emerald-950/80 dark:hover:bg-emerald-900 dark:text-emerald-200 dark:border-emerald-800'
+                  }`}
+                  title={isMuted ? "Click to unmute sound" : "Click to mute sound"}
+                >
+                  {isMuted ? (
+                    <>
+                      <VolumeX className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300" />
+                      <span>Unmute Sound</span>
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-300" />
+                      <span>Mute Sound</span>
+                    </>
+                  )}
+                </button>
               )}
-            </button>
+
+              {/* Trailer Toggle Button */}
+              <button
+                onClick={() => setShowTrailer(!showTrailer)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  showTrailer
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
+                    : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700'
+                }`}
+              >
+                {showTrailer ? (
+                  <>
+                    <EyeOff className="w-3.5 h-3.5" />
+                    <span>Hide Trailer</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>Watch Trailer</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Embedded Video Trailer Player */}
@@ -197,7 +246,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
             <div className="space-y-2">
               <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-zinc-200 dark:border-zinc-800 shadow-sm">
                 <iframe
-                  key={trailerEmbedUrl}
+                  key={`${trailerEmbedUrl}_${isMuted}`}
                   src={trailerEmbedUrl}
                   title={`${movie.title} Official Trailer`}
                   className="w-full h-full border-0"
@@ -206,13 +255,18 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                 ></iframe>
               </div>
 
-              {/* Player Toolbar: Status, Alternate Source & Direct Link */}
+              {/* Player Toolbar: Status, Sound Indicator, Alternate Source & Direct Link */}
               <div className="flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1 gap-2">
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-medium">
                     <Play className="w-3 h-3 text-red-600 fill-red-600" />
                     Official Trailer
                   </span>
+                  {isMuted && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium">
+                      Muted by default (click Unmute above or video player sound icon)
+                    </span>
+                  )}
                   {allSources.length > 1 && (
                     <button
                       onClick={() => setTrailerSourceIndex(prev => prev + 1)}
@@ -241,12 +295,10 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
             <div className="flex flex-col sm:flex-row gap-4 items-start">
               <div className="relative group mx-auto sm:mx-0 shrink-0">
                 <img
-                  src={movie.poster}
+                  src={posterSrc}
                   alt={movie.title}
                   className="w-28 sm:w-32 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-sm"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
-                  }}
+                  onError={() => setImgError(true)}
                 />
                 <button
                   onClick={() => setShowTrailer(true)}
@@ -313,7 +365,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
             </div>
           )}
 
-          {/* Footer Actions */}
+          {/* Footer Actions (Single arrow icon) */}
           <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
             <button
               onClick={onClose}

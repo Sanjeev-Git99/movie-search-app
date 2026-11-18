@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Star, Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 
+function getMoviePosterFallback(title, year) {
+  const cleanTitle = (title || 'Movie').slice(0, 24).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const cleanYear = (year || 'Cinema').slice(0, 10);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+    <rect width="300" height="450" fill="#18181b"/>
+    <rect x="15" y="15" width="270" height="420" rx="8" fill="#27272a" stroke="#3f3f46" stroke-width="1.5"/>
+    <circle cx="150" cy="175" r="40" fill="#3f3f46"/>
+    <text x="150" y="188" font-family="-apple-system,sans-serif" font-size="32" text-anchor="middle" fill="#a1a1aa">🎬</text>
+    <text x="150" y="260" font-family="-apple-system,sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#f4f4f5">${cleanTitle}</text>
+    <text x="150" y="285" font-family="-apple-system,sans-serif" font-size="12" text-anchor="middle" fill="#a1a1aa">${cleanYear}</text>
+  </svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
 export default function MovieCard({ movie, onSelect }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { isLoggedIn, openLoginModal } = useAuth();
+  const [imgError, setImgError] = useState(false);
   const inWishlist = isInWishlist(movie.imdbID);
 
   const handleClick = () => {
@@ -25,6 +40,10 @@ export default function MovieCard({ movie, onSelect }) {
     toggleWishlist(movie);
   };
 
+  const posterSrc = imgError 
+    ? getMoviePosterFallback(movie.title, movie.year) 
+    : (movie.poster || getMoviePosterFallback(movie.title, movie.year));
+
   return (
     <div
       onClick={handleClick}
@@ -33,13 +52,11 @@ export default function MovieCard({ movie, onSelect }) {
       {/* Poster */}
       <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950">
         <img
-          src={movie.poster}
+          src={posterSrc}
           alt={movie.title}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200"
-          onError={(e) => {
-            e.target.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
-          }}
+          onError={() => setImgError(true)}
         />
 
         {/* Quick Wishlist Button */}
