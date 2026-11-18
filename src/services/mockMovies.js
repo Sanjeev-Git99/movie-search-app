@@ -1,4 +1,4 @@
-// Rich curated dataset with verified TMDb posters and official working trailers
+// Rich curated dataset with official TMDb posters and verified working trailers
 export const POPULAR_MOVIES = [
   {
     imdbID: "tt16539454",
@@ -16,7 +16,7 @@ export const POPULAR_MOVIES = [
     plot: "Pushpa Raj expands his red sandalwood empire while his fiercest adversary, Bhanwar Singh Shekhawat, plots an all-out war to take him down.",
     imdbRating: "8.1 / 10",
     poster: "https://image.tmdb.org/t/p/w500/eUe5M3D0lLskjirOJ11R6xd7XB0.jpg",
-    trailerYoutubeId: "1kVK0MZlbI4"
+    trailerYoutubeId: "g3JUbgOHgdw"
   },
   {
     imdbID: "tt9335498",
@@ -33,7 +33,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Jagadeesh Prathap, Sunil, Anasuya Bharadwaj",
     plot: "Pushpa Raj, a coolie, rises in the world of red sandalwood smuggling, making lethal enemies along the way.",
     imdbRating: "7.6 / 10",
-    poster: "https://image.tmdb.org/t/p/w500/jQIcn51nsvMrpB9NFwEOb9QHhFt.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/kKDnGklCDRK8hrFGH4pLr7ZDA33.jpg",
     trailerYoutubeId: "Q1NKMPhP8PY"
   },
   {
@@ -51,7 +51,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Ajay Devgn, Alia Bhatt, Shriya Saran",
     plot: "A fictitious story about two legendary revolutionaries and their journey away from home before they began fighting for their country in the 1920s.",
     imdbRating: "7.8 / 10",
-    poster: "https://image.tmdb.org/t/p/w500/d3l7kgFJyLTTQSrR4ysCk5yeVyW.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/i0Y0wP8H6SRgjr6QmuwbtQbS24D.jpg",
     trailerYoutubeId: "NgBoMJy386M"
   },
   {
@@ -105,7 +105,7 @@ export const POPULAR_MOVIES = [
     supportingCast: "Tom Hardy, Ken Watanabe, Cillian Murphy",
     plot: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
     imdbRating: "8.8 / 10",
-    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    poster: "https://image.tmdb.org/t/p/w500/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg",
     trailerYoutubeId: "YoHD9XEInc0"
   },
   {

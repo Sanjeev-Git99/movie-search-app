@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
@@ -22,6 +22,10 @@ export default function MovieCard({ movie, onSelect }) {
   const { isLoggedIn, openLoginModal } = useAuth();
   const [imgError, setImgError] = useState(false);
   const inWishlist = isInWishlist(movie.imdbID);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [movie.imdbID, movie.poster]);
 
   const handleClick = () => {
     if (!isLoggedIn) {

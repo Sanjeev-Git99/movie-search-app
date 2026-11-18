@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, Heart, ArrowRight, X, Calendar, Film, 
-  Users, Video, Star, Play, EyeOff, ExternalLink, RefreshCw,
-  Volume2, VolumeX 
+  Users, Video, Star, Play, EyeOff, ExternalLink, RefreshCw 
 } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 
@@ -22,11 +21,11 @@ function getMoviePosterFallback(title, year) {
 
 // Verified embeddable backup sources for popular movies
 const BACKUP_TRAILERS = {
-  "tt16539454": ["1kVK0MZlbI4", "H7oQkBIl-kRN"], // Pushpa 2: The Rule
+  "tt16539454": ["g3JUbgOHgdw", "1kVK0MZlbI4"], // Pushpa 2: The Rule (Telugu & Hindi Official)
   "tt2631186": ["3NQRhE772b0", "VdafjyDK3ko"], // Baahubali: The Beginning
   "tt8178634": ["NgBoMJy386M", "GY4BgdUSpbE"], // RRR
   "tt11083552": ["kQDd1AhGIHk", "Q1NKMPhP8PY"], // Kalki 2898 AD
-  "tt9335498": ["Q1NKMPhP8PY", "pKctjlpbBR4"], // Pushpa
+  "tt9335498": ["Q1NKMPhP8PY", "pKctjlpbBR4"], // Pushpa: The Rise
   "tt1375666": ["YoHD9XEInc0", "8hP9D6kZseM"], // Inception
   "tt0816692": ["zSWdZVtXT7E", "2LqzF5WauAw"], // Interstellar
   "tt0468569": ["EXeTwQWrcwY", "kmJLuwP3MbY"], // The Dark Knight
@@ -44,8 +43,12 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const inWishlist = isInWishlist(movie.imdbID);
   const [showTrailer, setShowTrailer] = useState(true);
   const [trailerSourceIndex, setTrailerSourceIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(true); // Default to MUTED as requested!
   const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+    setTrailerSourceIndex(0);
+  }, [movie.imdbID]);
 
   const handleWishlistToggle = () => {
     if (inWishlist) {
@@ -95,10 +98,10 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
   const allSources = [primaryId, ...fallbackSources.filter(id => id !== primaryId)].filter(Boolean);
   const currentTrailerId = allSources[trailerSourceIndex % (allSources.length || 1)] || null;
 
-  // Trailer embed URL with mute parameter controlled by state (without enablejsapi to prevent configuration errors)
+  // Reliable YouTube embed URL with strict-origin policy
   const trailerEmbedUrl = currentTrailerId
-    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&mute=${isMuted ? 1 : 0}&rel=0`
-    : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1&mute=${isMuted ? 1 : 0}`;
+    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&rel=0`
+    : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
 
   const youtubeDirectLink = currentTrailerId
     ? `https://www.youtube.com/watch?v=${currentTrailerId}`
@@ -192,31 +195,6 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
 
             {/* Trailer Action Controls */}
             <div className="flex items-center gap-2 self-start sm:self-auto">
-              {showTrailer && (
-                /* Sound Toggle Button (Muted by Default) */
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    isMuted
-                      ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 dark:bg-amber-950/80 dark:hover:bg-amber-900 dark:text-amber-200 dark:border-amber-800'
-                      : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 dark:bg-emerald-950/80 dark:hover:bg-emerald-900 dark:text-emerald-200 dark:border-emerald-800'
-                  }`}
-                  title={isMuted ? "Click to unmute sound" : "Click to mute sound"}
-                >
-                  {isMuted ? (
-                    <>
-                      <VolumeX className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300" />
-                      <span>Unmute Sound</span>
-                    </>
-                  ) : (
-                    <>
-                      <Volume2 className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-300" />
-                      <span>Mute Sound</span>
-                    </>
-                  )}
-                </button>
-              )}
-
               {/* Trailer Toggle Button */}
               <button
                 onClick={() => setShowTrailer(!showTrailer)}
@@ -246,27 +224,22 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
             <div className="space-y-2">
               <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-zinc-200 dark:border-zinc-800 shadow-sm">
                 <iframe
-                  key={`${trailerEmbedUrl}_${isMuted}`}
                   src={trailerEmbedUrl}
                   title={`${movie.title} Official Trailer`}
                   className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 ></iframe>
               </div>
 
-              {/* Player Toolbar: Status, Sound Indicator, Alternate Source & Direct Link */}
+              {/* Player Toolbar: Status, Alternate Source & Direct Link */}
               <div className="flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1 gap-2">
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-medium">
                     <Play className="w-3 h-3 text-red-600 fill-red-600" />
                     Official Trailer
                   </span>
-                  {isMuted && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium">
-                      Muted by default (click Unmute above or video player sound icon)
-                    </span>
-                  )}
                   {allSources.length > 1 && (
                     <button
                       onClick={() => setTrailerSourceIndex(prev => prev + 1)}

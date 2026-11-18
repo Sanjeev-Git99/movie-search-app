@@ -1,80 +1,151 @@
-# 🎬 CineVault - Movies Search & Wishlist Application
+# 🎬 MovieSearch - Minimalist React Movie Exploration & Wishlist App
 
-A modern, responsive React web application for searching movies using free public APIs, viewing **30 comprehensive specifications**, managing a personal wishlist, and user authentication with Telugu & English bilingual support.
+A modern, responsive, developer-centric React application for discovering movies, watching official high-definition trailers, viewing essential cinematic specifications, and managing a personal wishlist. Built with React 18, Vite, Tailwind CSS, and the Context API.
 
----
-
-## ✨ Features Implemented (లక్షణాలు)
-
-1. **Free Public Movie API Integration (ఉచిత సినిమా API)**:
-   - Integrated with free open movie endpoints (OMDb API & TVMaze API) with smart failover and a curated fallback catalog.
-   - Works seamlessly out-of-the-box with zero mandatory setup.
-   - Optional setting to configure a personal OMDB API key if desired.
-
-2. **User Authentication (యూజర్ లాగిన్ సిస్టమ్)**:
-   - Log In / Registration modal with credentials support.
-   - **1-Click Instant Demo Login (`⚡ తక్షణ డెమో లాగిన్`)** for one-tap access.
-   - Persistent user session in `localStorage`.
-   - Displays avatar, name, and logged-in badge.
-
-3. **Thirty Movie Details Pop-up Modal (30 పూర్తి వివరాల పాప్-అప్ కార్డ్)**:
-   Whenever a logged-in user clicks on any movie card, a pop-up modal opens displaying all **30 specifications** clearly numbered from 1 to 30:
-   1. Movie Title (సినిమా శీర్షిక)
-   2. Release Year (విడుదలైన సంవత్సరం)
-   3. Sensor Certification / Rated (సెన్సార్ సర్టిఫికేషన్)
-   4. Theatrical Release Date (పూర్తి విడుదల తేదీ)
-   5. Total Runtime / Duration (సినిమా నిడివి)
-   6. Primary Genre (ప్రధాన వర్గం)
-   7. All Genres & Categories (అన్ని వర్గాలు & టాగ్స్)
-   8. Director (దర్శకుడు)
-   9. Writer & Screenplay (రచయిత & స్క్రీన్‌ప్లే)
-   10. Lead Starring Cast (ప్రధాన తారాగణం)
-   11. Supporting Cast & Ensembles (ఇతర నటీనటులు)
-   12. Plot Synopsis (సంక్షిప్త కథ)
-   13. Detailed Storyline & Premise (పూర్తి కథాంశం)
-   14. Original Spoken Language (ఆడియో భాష)
-   15. Available Subtitles & Dubbing (లభించే సబ్‌టైటిల్స్)
-   16. Country of Origin (మూల దేశం)
-   17. Awards & Honors (అవార్డులు & ప్రశంసలు)
-   18. IMDb Rating Score (IMDb రేటింగ్)
-   19. IMDb Total Votes (మొత్తం ఓట్ల సంఖ్య)
-   20. Metacritic Critic Score (విమర్శకుల స్కోర్)
-   21. Rotten Tomatoes / Audience Score (ప్రేక్షకుల ఆమోద శాతం)
-   22. Production Company / Studio (నిర్మాణ సంస్థ)
-   23. Worldwide Box Office Collection (ప్రపంచవ్యాప్త బాక్సాఫీస్ కలెక్షన్)
-   24. Estimated Production Budget (అంచనా బడ్జెట్)
-   25. Content Type & Classification (వర్గీకరణ రకం)
-   26. Aspect Ratio & Video Format (స్క్రీన్ నిష్పత్తి & రిజల్యూషన్)
-   27. Content Advisory & Guidance (కంటెంట్ మార్గదర్శకం)
-   28. Audio & Sound Mix Engineering (సౌండ్ సిస్టమ్)
-   29. Official Distribution & Link (అధికారిక పంపిణీ సైట్)
-   30. Global Database Reference ID (గ్లోబల్ రిఫరెన్స్ కోడ్)
-
-4. **Action Buttons Inside the Pop-up Card (పాప్-అప్ కార్డ్ బటన్లు)**:
-   - **`← Previous Page (వెనుకకు)` Button**: Closes the pop-up modal and smoothly returns to the previous search results page.
-   - **`Wishlist లో జోడించు (Add to Wishlist)` Button**: Toggles and saves the movie to the user's wishlist with celebratory visual confetti animation.
-   - **`విష్‌లిస్ట్ చూడండి (Go to Wishlist)` Redirect Button**: When added, a glowing redirect button immediately appears allowing the user to navigate straight to their Wishlist page to see the saved movie.
-
-5. **Wishlist Management (విష్‌లిస్ట్ పేజీ)**:
-   - Shows all saved movies.
-   - Quick remove option.
-   - Click any card to re-open the 30-detail modal.
-   - Back to Search navigation button.
-
-6. **Language Switcher (భాష మార్పు)**:
-   - One-click toggle between Telugu (తెలుగు) and English.
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 🚀 How to Run Locally
+## 🌟 Key Features
 
-```bash
-# 1. Navigate to the project directory
-cd /Users/sanjeevaaerupula/Desktop/React/movie-search-app
+- **⚡ Fast Movie Discovery & Live Search**:
+  - Real-time search across global movie titles using OMDb API and TVMaze endpoints with automatic failover to a verified curated offline catalog.
+  - Category filtering by Genre (All, Action, Sci-Fi, Drama, Crime, Superhero, Biography).
+  
+- **🎯 Minimalist 5-Point Specification Modal**:
+  - Focuses on the 5 most critical movie attributes without clutter:
+    1. **Movie Title**
+    2. **Theatrical Release Date**
+    3. **Movie Genre(s)**
+    4. **Starring Cast**
+    5. **Director**
+    *(plus concise plot overview and IMDb rating)*.
+  - Intuitive navigation with single-arrow **Previous Page** and direct **Go to Wishlist** redirection.
 
-# 2. Start the development server
-npm run dev
+- **🍿 Embedded Official Movie Trailers**:
+  - Built-in YouTube player embedded directly into the movie details modal with `strict-origin-when-cross-origin` security.
+  - Multi-source failover switcher allowing users to switch between official backup video streams if an embed is geo-restricted.
+  - Direct "Watch on YouTube" quick link for external viewing.
+
+- **❤️ Persistent Wishlist Management**:
+  - Global state managed via React Context API (`WishlistContext`) and synchronized with browser `localStorage`.
+  - Add or remove movies directly from cards or inside the modal.
+  - Dedicated Wishlist view with quick management and empty-state guidance.
+
+- **🌓 Zero-Flicker Light & Dark Theme**:
+  - Minimalist developer aesthetic: pure clean white (`#ffffff`) in Light mode and deep zinc (`#09090b`) in Dark mode.
+  - Synchronized with system preferences and persisted in storage.
+
+- **🔒 Authentication & Guest Mode**:
+  - Modal-based authentication with instant **1-Click Demo Login** for rapid evaluation.
+  - Protected actions (Wishlist and detailed specifications prompt login when unauthenticated).
+
+- **🖼️ High-Res Poster Delivery (TMDb CDN)**:
+  - Official high-definition movie posters powered by The Movie Database (TMDb) CDN.
+  - Dynamic SVG fallbacks ensuring zero broken image icons across all network conditions.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| Category | Technology |
+|---|---|
+| **Frontend Framework** | [React 18](https://react.dev/) (Functional Components, Hooks) |
+| **Build Tool & Bundler** | [Vite](https://vitejs.dev/) (Lightning-fast HMR) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) (Utility-first, Custom Themes) |
+| **State Management** | React Context API (`AuthContext`, `WishlistContext`) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Data & Media** | OMDb REST API, TVMaze API, TMDb CDN, YouTube Embeds |
+| **Storage** | Browser `localStorage` for state persistence |
+
+---
+
+## 📂 Project Structure
+
+```text
+movie-search-app/
+├── index.html              # HTML entry point with security & referrer policies
+├── package.json            # Project dependencies and scripts
+├── tailwind.config.js      # Custom theme configurations (Zinc palette, dark mode)
+├── vite.config.js          # Vite build configuration
+├── src/
+│   ├── main.jsx            # React root mount
+│   ├── App.jsx             # Top-level application layout and view router
+│   ├── index.css           # Tailwind base styles and theme variables
+│   ├── context/
+│   │   ├── AuthContext.jsx       # User authentication state & session persistence
+│   │   └── WishlistContext.jsx   # Global wishlist state & storage synchronization
+│   ├── services/
+│   │   ├── movieApi.js           # API client (OMDb + TVMaze fallback handler)
+│   │   └── mockMovies.js         # Curated catalog with verified TMDb posters & trailers
+│   └── components/
+│       ├── Navbar.jsx            # Navigation, branding, auth badges & theme toggle
+│       ├── SearchSection.jsx     # Search input, query debouncing & genre filters
+│       ├── MovieCard.jsx         # Card component with poster fallback & wishlist trigger
+│       ├── MovieDetailModal.jsx  # 5-spec details modal with embedded YouTube player
+│       ├── WishlistView.jsx      # Wishlist grid and management view
+│       └── LoginModal.jsx        # Credentials & 1-click demo guest login modal
 ```
 
-Open your browser at:
-`http://localhost:5173/`
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18.0 or higher recommended)
+- `npm` or `yarn`
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/movie-search-app.git
+   cd movie-search-app
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser**:
+   Navigate to [http://localhost:5173](http://localhost:5173)
+
+---
+
+## ⚙️ Configuration (Optional)
+
+The application includes a rich catalog of popular films with verified trailers and works completely out of the box with zero external configuration. 
+
+If you wish to query the live OMDb API for any global movie:
+1. Obtain a free API key at [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx)
+2. Create a `.env` file in the project root:
+   ```env
+   VITE_OMDB_API_KEY=your_api_key_here
+   ```
+
+---
+
+## 💡 Engineering Highlights & Solutions
+
+- **YouTube Embed Header Security (Fixing Error 153)**:
+  Solved the YouTube "Video player configuration error" by configuring `strict-origin-when-cross-origin` on both the host meta tag and the iframe element, allowing YouTube to authenticate the embed origin without exposing private referrer data.
+- **Resilient Multi-Tier API Fallback**:
+  Engineered a failover mechanism where movie searches seamlessly attempt OMDb API first, fall back to TVMaze API upon rate limits or missing keys, and gracefully fall back to a curated local database.
+- **Zero-Layout-Shift (CLS) Image Handling**:
+  Implemented aspect-ratio containers (`aspect-[2/3]`) with dynamic SVG fallback cards, preventing cumulative layout shift while posters load from the TMDb CDN.
+
+---
+
+## 📜 License
+
+This project is open-source and available under the [MIT License](LICENSE).
