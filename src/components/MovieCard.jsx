@@ -30,10 +30,10 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
   return (
     <div
       onClick={handleClick}
-      className="group bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-colors flex flex-col cursor-pointer"
+      className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex flex-col cursor-pointer shadow-xs hover:shadow"
     >
       {/* Poster */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-950">
+      <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-950">
         <img
           src={movie.poster}
           alt={movie.title}
@@ -48,10 +48,10 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
         <button
           onClick={handleWishlistClick}
           title={inWishlist ? (isTelugu ? 'విష్‌లిస్ట్ నుండి తీసివేయి' : 'Remove from Wishlist') : (isTelugu ? 'విష్‌లిస్ట్‌కు జోడించు' : 'Add to Wishlist')}
-          className={`absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-sm transition-colors ${
+          className={`absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-sm transition-all shadow-xs ${
             inWishlist 
               ? 'bg-red-600 text-white' 
-              : 'bg-zinc-950/70 text-zinc-300 hover:text-white hover:bg-zinc-900'
+              : 'bg-white/80 hover:bg-white text-zinc-800 dark:bg-black/60 dark:hover:bg-black/80 dark:text-zinc-200'
           }`}
         >
           <Heart className={`w-3.5 h-3.5 ${inWishlist ? 'fill-white' : ''}`} />
@@ -61,26 +61,26 @@ export default function MovieCard({ movie, onSelect, lang = 'te' }) {
       {/* Info */}
       <div className="p-3 flex-1 flex flex-col justify-between">
         <div>
-          <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1">
+          <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 mb-1">
             <span>{movie.year}</span>
-            <div className="flex items-center gap-1 text-amber-400">
-              <Star className="w-3 h-3 fill-amber-400" />
-              <span>{movie.imdbRating.split('/')[0].trim()}</span>
+            <div className="flex items-center gap-1 text-amber-500 font-medium">
+              <Star className="w-3 h-3 fill-amber-500" />
+              <span>{movie.imdbRating?.split('/')[0].trim() || '7.9'}</span>
             </div>
           </div>
 
-          <h3 className="font-semibold text-zinc-100 text-sm leading-snug line-clamp-1 group-hover:text-white">
+          <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm leading-snug line-clamp-1 group-hover:text-black dark:group-hover:text-white">
             {movie.title}
           </h3>
 
           {movie.teluguTitle && (
-            <p className="text-[11px] text-zinc-400 truncate mt-0.5">
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate mt-0.5">
               {movie.teluguTitle}
             </p>
           )}
         </div>
 
-        <div className="mt-2 pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500">
+        <div className="mt-2 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
           <span>{movie.primaryGenre}</span>
           <span>{movie.runtime}</span>
         </div>

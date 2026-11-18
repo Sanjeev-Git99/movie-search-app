@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
 import Navbar from './components/Navbar';
@@ -27,8 +28,8 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100">
-      {/* Top Navbar */}
+    <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+      {/* Top Navbar with Theme Toggle */}
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -37,7 +38,7 @@ function MainApp() {
       />
 
       {/* Main View Body */}
-      <main className="flex-1">
+      <main className="flex-1 bg-white dark:bg-zinc-950 transition-colors duration-200">
         {activeTab === 'search' ? (
           <SearchSection 
             onSelectMovie={handleSelectMovie} 
@@ -52,7 +53,7 @@ function MainApp() {
         )}
       </main>
 
-      {/* Thirty Details Pop-Up Modal */}
+      {/* Five Essential Details Pop-Up Modal */}
       {selectedMovie && (
         <MovieDetailModal
           movie={selectedMovie}
@@ -65,20 +66,20 @@ function MainApp() {
       {/* Login / Authentication Modal */}
       <LoginModal lang={lang} />
 
-      {/* Simple Developer Footer */}
-      <footer className="border-t border-zinc-850 py-6 text-center text-xs text-zinc-500">
+      {/* Clean Minimal Footer */}
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-6 text-center text-xs text-zinc-500 transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>
             {lang === 'te' 
-              ? 'MovieSearch Web Application' 
+              ? 'MovieSearch వెబ్ అప్లికేషన్' 
               : 'MovieSearch Web Application'}
           </p>
-          <div className="flex items-center gap-3 text-zinc-500 text-[11px]">
-            <span>30 Movie Details</span>
+          <div className="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 text-[11px]">
+            <span>{lang === 'te' ? 'ముఖ్యమైన 5 వివరాలు' : '5 Key Details'}</span>
             <span>•</span>
-            <span>Free API</span>
+            <span>{lang === 'te' ? 'లైట్ / డార్క్ థీమ్' : 'Light / Dark Theme'}</span>
             <span>•</span>
-            <span>Wishlist Management</span>
+            <span>{lang === 'te' ? 'విష్‌లిస్ట్' : 'Wishlist'}</span>
           </div>
         </div>
       </footer>
@@ -88,10 +89,12 @@ function MainApp() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <WishlistProvider>
-        <MainApp />
-      </WishlistProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <WishlistProvider>
+          <MainApp />
+        </WishlistProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
