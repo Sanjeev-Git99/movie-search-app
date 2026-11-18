@@ -12,7 +12,7 @@ export default function SearchSection({ onSelectMovie }) {
   const [apiKeyInput, setApiKeyInput] = useState(() => localStorage.getItem('omdb_api_key') || '');
   const [keySaved, setKeySaved] = useState(false);
 
-  const tags = ['RRR', 'Inception', 'Kalki 2898 AD', 'Avatar', 'Baahubali', 'The Dark Knight', 'Pushpa', 'Interstellar'];
+  const tags = ['Pushpa 2', 'RRR', 'Inception', 'Kalki 2898 AD', 'Baahubali', 'Avatar', 'The Dark Knight', 'Interstellar'];
 
   const handleSearch = async (searchTerm) => {
     const term = searchTerm !== undefined ? searchTerm : query;

@@ -145,6 +145,24 @@ export const POPULAR_MOVIES = [
     trailerYoutubeId: "Q1NKMPhP8PY"
   },
   {
+    imdbID: "tt16539454",
+    title: "Pushpa 2: The Rule",
+    year: "2024",
+    rated: "Not Rated",
+    released: "05 Dec 2024",
+    runtime: "201 min (3h 21m)",
+    primaryGenre: "Action Crime",
+    genres: ["Action", "Crime", "Drama", "Thriller"],
+    director: "Sukumar",
+    writer: "Sukumar",
+    leadCast: "Allu Arjun, Rashmika Mandanna, Fahadh Faasil",
+    supportingCast: "Jagapathi Babu, Prakash Raj, Sunil, Anasuya Bharadwaj",
+    plot: "Pushpa Raj expands his red sandalwood empire while his fiercest adversary, Bhanwar Singh Shekhawat, plots an all-out war to take him down.",
+    imdbRating: "8.1 / 10",
+    poster: "https://m.media-amazon.com/images/M/MV5BNGZlNmE5MjMtMzMwMy00OGUyLTlkOGUtMmEyNDUzMmY3ZmMwXkEyXkFqcGc@._V1_SX300.jpg",
+    trailerYoutubeId: "1kVK0MZlbI4"
+  },
+  {
     imdbID: "tt15398776",
     title: "Oppenheimer",
     year: "2023",

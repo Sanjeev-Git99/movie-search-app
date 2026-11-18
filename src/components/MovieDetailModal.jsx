@@ -7,6 +7,7 @@ import { useWishlist } from '../context/WishlistContext';
 
 // Verified embeddable backup sources for popular movies
 const BACKUP_TRAILERS = {
+  "tt16539454": ["1kVK0MZlbI4", "H7oQkBIl-kRN"], // Pushpa 2: The Rule
   "tt2631186": ["3NQRhE772b0", "VdafjyDK3ko"], // Baahubali: The Beginning
   "tt8178634": ["NgBoMJy386M", "GY4BgdUSpbE"], // RRR
   "tt11083552": ["kQDd1AhGIHk", "Q1NKMPhP8PY"], // Kalki 2898 AD
@@ -101,7 +102,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>← Previous Page</span>
+            <span>Previous Page</span>
           </button>
 
           {/* Right Action Buttons */}
@@ -316,9 +317,10 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
           <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
             <button
               onClick={onClose}
-              className="px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium transition-colors"
             >
-              ← Back
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
             </button>
 
             <button
