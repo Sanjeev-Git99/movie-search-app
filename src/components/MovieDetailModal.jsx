@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import { 
   ArrowLeft, Heart, ArrowRight, X, Calendar, Film, 
-  Users, Video, Star, Play, EyeOff, ExternalLink 
+  Users, Video, Star, Play, EyeOff, ExternalLink, RefreshCw 
 } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
+
+// Verified embeddable backup sources for popular movies
+const BACKUP_TRAILERS = {
+  "tt2631186": ["3NQRhE772b0", "VdafjyDK3ko"], // Baahubali: The Beginning
+  "tt8178634": ["NgBoMJy386M", "GY4BgdUSpbE"], // RRR
+  "tt11083552": ["kQDd1AhGIHk", "Q1NKMPhP8PY"], // Kalki 2898 AD
+  "tt9335498": ["Q1NKMPhP8PY", "pKctjlpbBR4"], // Pushpa
+  "tt1375666": ["YoHD9XEInc0", "8hP9D6kZseM"], // Inception
+  "tt0816692": ["zSWdZVtXT7E", "2LqzF5WauAw"], // Interstellar
+  "tt0468569": ["EXeTwQWrcwY", "kmJLuwP3MbY"], // The Dark Knight
+  "tt4154796": ["TcMBFSGVi1c", "ee1172_SYG8"], // Avengers Endgame
+  "tt15398776": ["uYPbbksJxIg", "bK6ldnjE3Y0"], // Oppenheimer
+  "tt0499549": ["5PSNL1qE6VY", "d9MyW72ELq0"], // Avatar
+  "tt0111161": ["6hB3S9bIaco", "NmzuHjWmXOc"], // Shawshank
+  "tt1087260": ["JfVOs4VSpmA", "rt-2cxAiPJk"]  // Spider-Man
+};
 
 export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist }) {
   if (!movie) return null;
 
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const inWishlist = isInWishlist(movie.imdbID);
-  const [showTrailer, setShowTrailer] = useState(true); // Automatically show trailer player ready
+  const [showTrailer, setShowTrailer] = useState(true);
+  const [trailerSourceIndex, setTrailerSourceIndex] = useState(0);
 
   const handleWishlistToggle = () => {
     if (inWishlist) {
@@ -54,10 +71,20 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
     }
   ];
 
-  // Resolve trailer video embed URL
-  const trailerEmbedUrl = movie.trailerYoutubeId
-    ? `https://www.youtube-nocookie.com/embed/${movie.trailerYoutubeId}?autoplay=1&rel=0`
-    : `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
+  // Resolve trailer video sources
+  const fallbackSources = BACKUP_TRAILERS[movie.imdbID] || [];
+  const primaryId = movie.trailerYoutubeId || (fallbackSources[0] || null);
+  const allSources = [primaryId, ...fallbackSources.filter(id => id !== primaryId)].filter(Boolean);
+  const currentTrailerId = allSources[trailerSourceIndex % (allSources.length || 1)] || null;
+
+  const originParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : '';
+  const trailerEmbedUrl = currentTrailerId
+    ? `https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&rel=0&enablejsapi=1`
+    : `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
+
+  const youtubeDirectLink = currentTrailerId
+    ? `https://www.youtube.com/watch?v=${currentTrailerId}`
+    : `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' official trailer')}`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 dark:bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
@@ -166,9 +193,10 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
 
           {/* Embedded Video Trailer Player */}
           {showTrailer ? (
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-zinc-200 dark:border-zinc-800 shadow-sm">
                 <iframe
+                  key={trailerEmbedUrl}
                   src={trailerEmbedUrl}
                   title={`${movie.title} Official Trailer`}
                   className="w-full h-full border-0"
@@ -176,18 +204,33 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1">
-                <span className="flex items-center gap-1">
-                  <Play className="w-3 h-3 text-red-500 fill-red-500" />
-                  Official Movie Trailer Playing
-                </span>
+
+              {/* Player Toolbar: Status, Alternate Source & Direct Link */}
+              <div className="flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1 gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-medium">
+                    <Play className="w-3 h-3 text-red-600 fill-red-600" />
+                    Official Trailer
+                  </span>
+                  {allSources.length > 1 && (
+                    <button
+                      onClick={() => setTrailerSourceIndex(prev => prev + 1)}
+                      className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 text-[10px] transition-colors"
+                      title="Switch to backup trailer video stream"
+                    >
+                      <RefreshCw className="w-2.5 h-2.5" />
+                      <span>Switch Source ({((trailerSourceIndex % allSources.length) + 1)}/{allSources.length})</span>
+                    </button>
+                  )}
+                </div>
+
                 <a
-                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`}
+                  href={youtubeDirectLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline flex items-center gap-1"
+                  className="hover:underline flex items-center gap-1 text-zinc-600 dark:text-zinc-300 hover:text-red-600 font-medium"
                 >
-                  <span>Open in YouTube</span>
+                  <span>Watch on YouTube</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>

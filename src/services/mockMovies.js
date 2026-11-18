@@ -52,7 +52,7 @@ export const POPULAR_MOVIES = [
     plot: "A child from the Mahishmati kingdom is raised by tribal people and grows up to discover his legendary regal heritage.",
     imdbRating: "8.0 / 10",
     poster: "https://m.media-amazon.com/images/M/MV5BYWVlMjVhZWYtNWViNC00ODFkLTk1MmItYjU1MDY5ZDdhMTU3XkEyXkFqcGc@._V1_SX300.jpg",
-    trailerYoutubeId: "sOEg_YNguG4"
+    trailerYoutubeId: "3NQRhE772b0"
   },
   {
     imdbID: "tt0816692",
@@ -196,7 +196,7 @@ export const POPULAR_MOVIES = [
     plot: "A banker convicted of uxoricide forms a friendship over a quarter of a century with a fellow convict, while maintaining his innocence.",
     imdbRating: "9.3 / 10",
     poster: "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_SX300.jpg",
-    trailerYoutubeId: "PLl99DlL6b4"
+    trailerYoutubeId: "6hB3S9bIaco"
   },
   {
     imdbID: "tt1087260",
