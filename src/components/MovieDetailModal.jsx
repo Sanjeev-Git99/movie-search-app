@@ -1,5 +1,8 @@
-import React from 'react';
-import { ArrowLeft, Heart, ArrowRight, X, Calendar, Film, Users, Video, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  ArrowLeft, Heart, ArrowRight, X, Calendar, Film, 
+  Users, Video, Star, Play, EyeOff, ExternalLink 
+} from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 
 export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist }) {
@@ -7,6 +10,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
 
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const inWishlist = isInWishlist(movie.imdbID);
+  const [showTrailer, setShowTrailer] = useState(true); // Automatically show trailer player ready
 
   const handleWishlistToggle = () => {
     if (inWishlist) {
@@ -16,7 +20,7 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
     }
   };
 
-  // Exactly 5 Essential Minimal Movie Specifications
+  // 5 Essential Minimal Movie Specifications
   const fiveSpecs = [
     {
       id: 1,
@@ -50,10 +54,15 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
     }
   ];
 
+  // Resolve trailer video embed URL
+  const trailerEmbedUrl = movie.trailerYoutubeId
+    ? `https://www.youtube-nocookie.com/embed/${movie.trailerYoutubeId}?autoplay=1&rel=0`
+    : `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' official trailer')}&autoplay=1`;
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 dark:bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
       <div 
-        className="relative w-full max-w-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl text-zinc-900 dark:text-zinc-100 overflow-hidden"
+        className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl text-zinc-900 dark:text-zinc-100 overflow-hidden my-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Action Header */}
@@ -110,24 +119,15 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
         </div>
 
         {/* Modal Content */}
-        <div className="p-5 space-y-4">
+        <div className="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
           
-          {/* Top section: Poster & Synopsis */}
-          <div className="flex flex-col sm:flex-row gap-4 items-start">
-            <img
-              src={movie.poster}
-              alt={movie.title}
-              className="w-24 sm:w-28 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shrink-0 mx-auto sm:mx-0 shadow-sm"
-              onError={(e) => {
-                e.target.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
-              }}
-            />
-
-            <div className="flex-1 space-y-1.5 text-center sm:text-left">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                  {movie.year}
-                </span>
+          {/* Movie Title & Quick Info */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-zinc-100 dark:border-zinc-800">
+            <div>
+              <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-0.5">
+                <span className="font-medium text-zinc-700 dark:text-zinc-300">{movie.year}</span>
+                <span>•</span>
+                <span>{movie.primaryGenre}</span>
                 <span>•</span>
                 <span>{movie.runtime}</span>
                 <span>•</span>
@@ -136,19 +136,102 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
                   {movie.imdbRating?.split('/')[0].trim() || '7.9'}
                 </span>
               </div>
-
-              <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
                 {movie.title}
               </h2>
-
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed line-clamp-3">
-                {movie.plot}
-              </p>
             </div>
+
+            {/* Trailer Toggle Button */}
+            <button
+              onClick={() => setShowTrailer(!showTrailer)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors self-start sm:self-auto ${
+                showTrailer
+                  ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
+                  : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700'
+              }`}
+            >
+              {showTrailer ? (
+                <>
+                  <EyeOff className="w-3.5 h-3.5" />
+                  <span>Hide Trailer</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Watch Trailer</span>
+                </>
+              )}
+            </button>
           </div>
 
+          {/* Embedded Video Trailer Player */}
+          {showTrailer ? (
+            <div className="space-y-1.5">
+              <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                <iframe
+                  src={trailerEmbedUrl}
+                  title={`${movie.title} Official Trailer`}
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 px-1">
+                <span className="flex items-center gap-1">
+                  <Play className="w-3 h-3 text-red-500 fill-red-500" />
+                  Official Movie Trailer Playing
+                </span>
+                <a
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline flex items-center gap-1"
+                >
+                  <span>Open in YouTube</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          ) : (
+            /* Poster + Synopsis when trailer is hidden */
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <div className="relative group mx-auto sm:mx-0 shrink-0">
+                <img
+                  src={movie.poster}
+                  alt={movie.title}
+                  className="w-28 sm:w-32 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-sm"
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
+                  }}
+                />
+                <button
+                  onClick={() => setShowTrailer(true)}
+                  className="absolute inset-0 bg-black/40 group-hover:bg-black/55 rounded-lg flex items-center justify-center text-white transition-colors"
+                  title="Play Trailer"
+                >
+                  <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-4 h-4 fill-white ml-0.5" />
+                  </div>
+                </button>
+              </div>
+
+              <div className="flex-1 space-y-2">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {movie.plot}
+                </p>
+                <button
+                  onClick={() => setShowTrailer(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-semibold"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Play Official Trailer</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* 5 Minimal Specifications */}
-          <div className="space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+          <div className="space-y-2 pt-3 border-t border-zinc-100 dark:border-zinc-800">
             <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">
               5 Key Specifications:
             </div>
@@ -173,6 +256,18 @@ export default function MovieDetailModal({ movie, onClose, onRedirectToWishlist 
               })}
             </div>
           </div>
+
+          {/* Plot overview under specs if trailer is shown */}
+          {showTrailer && (
+            <div className="pt-2">
+              <span className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+                Plot Overview:
+              </span>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mt-1">
+                {movie.plot}
+              </p>
+            </div>
+          )}
 
           {/* Footer Actions */}
           <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">

@@ -113,7 +113,8 @@ export function enrichMovieData(raw, fallback = {}) {
     // 30
     imdbID: imdbID,
     poster: poster,
-    backdrop: poster
+    backdrop: poster,
+    trailerYoutubeId: raw.trailerYoutubeId || fallback.trailerYoutubeId || null
   };
 }
 
