@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, SearchX } from 'lucide-react';
 import { searchMovies } from '../services/movieApi';
 import { POPULAR_MOVIES } from '../services/mockMovies';
 import MovieCard from './MovieCard';
@@ -15,13 +15,17 @@ export default function SearchSection({ onSelectMovie }) {
 
   const handleSearch = async (searchTerm) => {
     const term = searchTerm !== undefined ? searchTerm : query;
+    if (!term || !term.trim()) {
+      setMovies(POPULAR_MOVIES);
+      return;
+    }
     setIsLoading(true);
     try {
       const results = await searchMovies(term);
       setMovies(results);
     } catch (err) {
       console.error(err);
-      setMovies(POPULAR_MOVIES);
+      setMovies([]);
     } finally {
       setIsLoading(false);
     }
@@ -30,6 +34,12 @@ export default function SearchSection({ onSelectMovie }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSearch();
+  };
+
+  const handleResetSearch = () => {
+    setQuery('');
+    setSelectedCategory('All');
+    setMovies(POPULAR_MOVIES);
   };
 
   const filteredMovies = selectedCategory === 'All'
@@ -66,11 +76,9 @@ export default function SearchSection({ onSelectMovie }) {
               {query && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setQuery('');
-                    setMovies(POPULAR_MOVIES);
-                  }}
+                  onClick={handleResetSearch}
                   className="search-clear-btn"
+                  title="Clear search"
                 >
                   ✕
                 </button>
@@ -121,20 +129,41 @@ export default function SearchSection({ onSelectMovie }) {
           </div>
 
           <div className="results-count-text">
-            {filteredMovies.length} movies found
+            {filteredMovies.length} {filteredMovies.length === 1 ? 'movie' : 'movies'} found
           </div>
         </div>
 
-        {/* Movies Grid */}
-        <div className="movies-grid">
-          {filteredMovies.map((movie) => (
-            <MovieCard
-              key={movie.imdbID}
-              movie={movie}
-              onSelect={onSelectMovie}
-            />
-          ))}
-        </div>
+        {/* Movies Grid or Not Found Visual */}
+        {filteredMovies.length === 0 ? (
+          <div className="not-found-box">
+            <div className="not-found-icon-wrap">
+              <SearchX style={{ width: 28, height: 28 }} />
+            </div>
+            <h3 className="not-found-title">
+              No Movies Found
+            </h3>
+            <p className="not-found-desc">
+              We couldn't find any movies matching "{query || selectedCategory}". Please check for typos, try different search terms, or explore popular movies below.
+            </p>
+            <button
+              type="button"
+              onClick={handleResetSearch}
+              className="not-found-reset-btn"
+            >
+              Explore Popular Movies
+            </button>
+          </div>
+        ) : (
+          <div className="movies-grid">
+            {filteredMovies.map((movie) => (
+              <MovieCard
+                key={movie.imdbID}
+                movie={movie}
+                onSelect={onSelectMovie}
+              />
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

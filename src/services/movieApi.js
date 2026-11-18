@@ -201,15 +201,8 @@ export async function searchMovies(query) {
     return localFiltered;
   }
 
-  // If no match found, create a synthesized movie result so the user can test any title they desire!
-  return [
-    enrichMovieData({
-      Title: query.charAt(0).toUpperCase() + query.slice(1),
-      Year: '2024',
-      Genre: 'Action, Thriller, Drama',
-      Plot: `Special cinema edition featuring ${query}. An exhilarating cinematic spectacle packed with groundbreaking visual effects, heart-pounding tension, and unforgettable character performances.`
-    })
-  ];
+  // If no match found in OMDb, TVMaze, or local catalog, return empty array
+  return [];
 }
 
 /**
